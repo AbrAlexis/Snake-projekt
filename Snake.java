@@ -7,7 +7,7 @@ public class Snake {
     public Snake() {
         this.headX = //
         this.headY = //
-        this.direction = 'w';
+        this.direction = 'L';
         this.bodyLength = 1;
     }
 
