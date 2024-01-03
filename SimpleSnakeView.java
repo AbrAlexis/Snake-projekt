@@ -21,6 +21,7 @@ public class SimpleSnakeView extends Application {
                 cell.setStroke(Color.BLACK);
                 gridpane.add(cell, col, row);
             }
+
         }
 
         Scene scene = new Scene(gridpane, 500, 500);
