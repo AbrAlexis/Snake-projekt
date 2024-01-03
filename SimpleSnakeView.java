@@ -27,7 +27,7 @@ public class SimpleSnakeView extends Application {
         root.getChildren().add(canvas);
         Scene scene = new Scene(root, 600, 500);
 
-        GridPane grid = new GridPane();
+        GridPane gridpane = new GridPane();
         grid.setAlignment(Pos.CENTER);
         for (int i = 0; i < grid.getGridSizeX(); i++) {
             grid.addRow(i);
