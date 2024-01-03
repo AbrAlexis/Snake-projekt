@@ -3,12 +3,12 @@ import java.util.*;
 public class Grid {
     private int gridSizeX;
     private int gridSizeY;
-    private char[][] grid;
+    private boolean[][] grid;
 
     public Grid() {
         this.gridSizeX = createGrid("Please enter grid width: ");
         this.gridSizeY = createGrid("Please enter grid height: ");
-        this.grid = new char[gridSizeX][gridSizeY];
+        this.grid = new boolean[gridSizeX][gridSizeY];
     }
 
     public int getGridSizeX() {
@@ -19,7 +19,7 @@ public class Grid {
         return gridSizeY;
     }
 
-    public char[][] getgrid() {
+    public boolean[][] getgrid() {
         return grid;
     }
 
