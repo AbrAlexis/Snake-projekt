@@ -1,44 +1,33 @@
 import javafx.application.Application;
-import javafx.event.EventHandler;
-import javafx.geometry.Pos;
-import javafx.scene.Group;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
-
+import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
 public class SimpleSnakeView extends Application {
 
-    public void start(Stage stage) {
-        Canvas canvas = new Canvas(5000, 5000);
-        GraphicsContext gc = canvas.getGraphicsContext2D();
-        gc.setFill(Color.LIGHTGRAY);
-        gc.setStroke(Color.BLACK);
-        gc.setLineWidth(5);
+    Grid grid = new Grid();
 
-        StackPane root = new StackPane();
-        root.getChildren().add(canvas);
-        Scene scene = new Scene(root, 600, 500);
+    @Override
+    public void start(Stage primaryStage) {
+        GridPane gridpane = new GridPane();
 
-        GridPane grid = new GridPane();
-        grid.setAlignment(Pos.CENTER);
-        for (int i = 0; i < grid.getGridSizeX(); i++) {
-            grid.addRow(i);
+        // Create grid lines (Rectangles)
+        for (int row = 0; row < grid.getGridSizeX(); row++) {
+            for (int col = 0; col < grid.getGridSizeY(); col++) {
+                Rectangle cell = new Rectangle(500 / grid.getGridSizeX(), 500 / grid.getGridSizeY());
+                cell.setFill(Color.TRANSPARENT);
+                cell.setStroke(Color.BLACK);
+                gridpane.add(cell, col, row);
+            }
         }
-        for (int i = 0; i < grid.getGridSizeY(); i++) {
-            grid.addRow(i);
-        }
-        stage.setScene(scene);
-        stage.setTitle("SimpleSnakeView");
-        stage.show();
 
+        Scene scene = new Scene(gridpane, 500, 500);
+
+        primaryStage.setTitle("JavaFX Grid Example");
+        primaryStage.setScene(scene);
+        primaryStage.show();
     }
 
     public static void main(String[] args) {
