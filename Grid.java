@@ -8,7 +8,7 @@ public class Grid {
         for (int j = 0; j < b0n3r.length; j++) {
             System.out.println();
             for (int k = 0; k < b0n3r[j].length; k++) {
-                System.out.print("b0n3r ");
+                System.out.print("b0n3r! ");
             }
         }
     }
