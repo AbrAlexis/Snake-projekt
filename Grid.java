@@ -1,6 +1,6 @@
 public class Grid {
     public static void main(String[] args) {
-        System.out.println("hello, snake gamers");
+        System.out.println("Welcome to Snake");
         for (int i = 0; i <= 10; i++) {
             System.out.print(i + "poop ");
         }
