@@ -5,8 +5,8 @@ public class Snake {
     private int bodyLength;
 
     public Snake() {
-        this.headX = getGridX();
-        this.headY = getGridY();
+        this.headX = //
+        this.headY = //
         this.direction = 'w';
         this.bodyLength = 1;
     }
