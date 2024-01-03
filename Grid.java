@@ -23,6 +23,10 @@ public class Grid {
         return grid;
     }
 
+    public void updateCell(int row, int col, char direction) {
+        grid[row][col] = direction;
+    }
+
     public int createGrid(String prompt) { // Gets user input for grid width and grid height
         int size = 0;
         Scanner console = new Scanner(System.in);
