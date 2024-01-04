@@ -21,8 +21,11 @@ public class SimpleSnakeView extends Application {
                 cell.setStroke(Color.BLACK);
                 gridpane.add(cell, col, row);
             }
-
         }
+        // Snakehead
+        Rectangle head = new Rectangle(500 / grid.getGridSizeX(), 500 / grid.getGridSizeY());
+        head.setFill(Color.LIMEGREEN);
+        gridpane.add(head, grid.getGridSizeX() / 2, grid.getGridSizeY() / 2);
 
         Scene scene = new Scene(gridpane, 500, 500);
 
