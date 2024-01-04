@@ -9,7 +9,8 @@ import javafx.stage.Stage;
 
 public class SimpleSnakeView extends Application {
     private Grid grid;
-    private int cellSize = 15;
+    private int cellSize = 15; // Can be reduced, if the game needs to be played where grid height is set to
+                               // 100 and the monitor is to small.
     private Food food;
 
     @Override
