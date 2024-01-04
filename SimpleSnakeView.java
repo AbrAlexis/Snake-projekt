@@ -10,7 +10,7 @@ import javafx.stage.Stage;
 
 public class SimpleSnakeView extends Application {
     private Grid grid;
-    private int cellSize = 10;
+    private int cellSize = 20;
     private Food food;
 
     @Override
@@ -21,11 +21,10 @@ public class SimpleSnakeView extends Application {
         int sceneSizeY = cellSize * grid.getGridSizeY();
         Scene scene = new Scene(root, sceneSizeX, sceneSizeY, Color.WHITE);
         final Canvas canvas = new Canvas(sceneSizeX, sceneSizeY);
-        // Create grid lines (Rectangles)
         GraphicsContext gc = canvas.getGraphicsContext2D();
         for (int i = 0; i < sceneSizeX; i += cellSize) {
             for (int j = 0; j < sceneSizeY; j += cellSize) {
-                if ((i + j) % 20 == 0) {
+                if ((i + j) % (2* cellSize) == 0) {
                     gc.setFill(Color.DARKGREEN);
                 } else {
                     gc.setFill(Color.GREEN);
@@ -33,6 +32,10 @@ public class SimpleSnakeView extends Application {
                 gc.fillRect(i, j, cellSize, cellSize);
             }
         }
+
+        food = new Food(grid);
+        gc.setFill(Color.RED);
+        gc.fillRect(food.getFoodX() * cellSize, food.getFoodY() * cellSize, cellSize, cellSize);
 
         root.getChildren().add(canvas);
         primaryStage.setTitle("JavaFX Grid Example");
