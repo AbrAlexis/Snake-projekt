@@ -17,6 +17,7 @@ public class SimpleSnakeView extends Application {
     public void start(Stage primaryStage) {
         Group root = new Group();
         grid = new Grid();
+        Snake snake = new Snake(grid);
         int sceneSizeX = cellSize * grid.getGridSizeX();
         int sceneSizeY = cellSize * grid.getGridSizeY();
         Scene scene = new Scene(root, sceneSizeX, sceneSizeY, Color.WHITE);
@@ -24,7 +25,7 @@ public class SimpleSnakeView extends Application {
         GraphicsContext gc = canvas.getGraphicsContext2D();
         for (int i = 0; i < sceneSizeX; i += cellSize) {
             for (int j = 0; j < sceneSizeY; j += cellSize) {
-                if ((i + j) % (2* cellSize) == 0) {
+                if ((i + j) % (2 * cellSize) == 0) {
                     gc.setFill(Color.DARKGREEN);
                 } else {
                     gc.setFill(Color.GREEN);
@@ -36,11 +37,21 @@ public class SimpleSnakeView extends Application {
         food = new Food(grid);
         gc.setFill(Color.RED);
         gc.fillRect(food.getFoodX() * cellSize, food.getFoodY() * cellSize, cellSize, cellSize);
-
+        showSnake(gc, snake);
         root.getChildren().add(canvas);
         primaryStage.setTitle("JavaFX Grid Example");
         primaryStage.setScene(scene);
         primaryStage.show();
+    }
+
+    public void showSnake(GraphicsContext gc, Snake snake) {
+        gc.setFill(Color.BLUE);
+        gc.fillRect(snake.getHeadX() * cellSize, snake.getHeadY() * cellSize, cellSize, cellSize);
+        for (int i = 0; i < snake.getSize(); i++) {
+            gc.setFill(Color.BLACK);
+            gc.fillRect(snake.getBody().get(i).getXpos() * cellSize, snake.getBody().get(i).getYpos() * cellSize,
+                    cellSize, cellSize);
+        }
     }
 
     public static void main(String[] args) {
