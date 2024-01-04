@@ -8,6 +8,7 @@ import javafx.stage.Stage;
 public class SimpleSnakeView extends Application {
     private Grid grid;
     private int cellSize = 10;
+    private Food food;
 
     @Override
     public void start(Stage primaryStage) {
@@ -25,9 +26,15 @@ public class SimpleSnakeView extends Application {
             }
         }
         // Snakehead
-        Rectangle head = new Rectangle(500 / grid.getGridSizeX(), 500 / grid.getGridSizeY());
+        Rectangle head = new Rectangle(cellSize, cellSize);
         head.setFill(Color.LIMEGREEN);
         gridpane.add(head, grid.getGridSizeX() / 2, grid.getGridSizeY() / 2);
+
+        // Food
+        food = new Food(grid);
+        Rectangle mad = new Rectangle(cellSize, cellSize);
+        mad.setFill(Color.RED);
+        gridpane.add(mad, food.getFoodX(), food.getFoodY());
 
         Scene scene = new Scene(gridpane, sceneSizeX, sceneSizeY);
 

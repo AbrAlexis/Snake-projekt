@@ -14,4 +14,12 @@ public class Food {
     public void eatFood() {
         this.alive = false;
     }
+
+    public int getFoodX() {
+        return foodX;
+    }
+
+    public int getFoodY() {
+        return foodY;
+    }
 }
