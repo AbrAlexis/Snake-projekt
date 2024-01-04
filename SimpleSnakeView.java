@@ -33,18 +33,6 @@ public class SimpleSnakeView extends Application {
                 gc.fillRect(i, j, cellSize, cellSize);
             }
         }
-        // Snakehead
-        Rectangle head = new Rectangle(cellSize, cellSize);
-        head.setFill(Color.LIMEGREEN);
-        gridpane.add(head, grid.getGridSizeX() / 2, grid.getGridSizeY() / 2);
-
-        // Food
-        food = new Food(grid);
-        Rectangle mad = new Rectangle(cellSize, cellSize);
-        mad.setFill(Color.RED);
-        gridpane.add(mad, food.getFoodX(), food.getFoodY());
-
-        Scene scene = new Scene(gridpane, sceneSizeX, sceneSizeY);
 
         root.getChildren().add(canvas);
         primaryStage.setTitle("JavaFX Grid Example");
