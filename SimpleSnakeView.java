@@ -1,5 +1,8 @@
 import javafx.application.Application;
+import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -11,23 +14,26 @@ public class SimpleSnakeView extends Application {
 
     @Override
     public void start(Stage primaryStage) {
+        Group root = new Group();
         grid = new Grid();
-        int sceneSizeX = 10 * grid.getGridSizeX();
-        int sceneSizeY = 10 * grid.getGridSizeY();
-        GridPane gridpane = new GridPane();
+        int sceneSizeX = cellSize * grid.getGridSizeX();
+        int sceneSizeY = cellSize * grid.getGridSizeY();
+        Scene scene = new Scene(root, sceneSizeX, sceneSizeY, Color.WHITE);
+        final Canvas canvas = new Canvas(sceneSizeX, sceneSizeY);
         // Create grid lines (Rectangles)
-        for (int row = 0; row < grid.getGridSizeX(); row++) {
-            for (int col = 0; col < grid.getGridSizeY(); col++) {
-                Rectangle cell = new Rectangle(cellSize, cellSize);
-                cell.setFill(Color.TRANSPARENT);
-                cell.setStroke(Color.BLACK);
-                gridpane.add(cell, row, col);
+        GraphicsContext gc = canvas.getGraphicsContext2D();
+        for (int i = 0; i < sceneSizeX; i += cellSize) {
+            for (int j = 0; j < sceneSizeY; j += cellSize) {
+                if ((i + j) % 20 == 0) {
+                    gc.setFill(Color.DARKGREEN);
+                } else {
+                    gc.setFill(Color.GREEN);
+                }
+                gc.fillRect(i, j, cellSize, cellSize);
             }
 
         }
-
-        Scene scene = new Scene(gridpane, sceneSizeX, sceneSizeY);
-
+        root.getChildren().add(canvas);
         primaryStage.setTitle("JavaFX Grid Example");
         primaryStage.setScene(scene);
         primaryStage.show();
