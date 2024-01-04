@@ -18,19 +18,22 @@ public class SimpleSnakeView extends Application {
         grid = new Grid();
         Snake snake = new Snake(grid);
         food = new Food(grid);
+        for (int i = 0; i < 5; i++) {
+            snake.createBodypart(snake.getHeadX(), snake.getBody().get(i).getYpos() + 1);
+        }
         int sceneSizeX = cellSize * grid.getGridSizeX();
         int sceneSizeY = cellSize * grid.getGridSizeY();
         Scene scene = new Scene(root, sceneSizeX, sceneSizeY, Color.WHITE);
         final Canvas canvas = new Canvas(sceneSizeX, sceneSizeY);
         GraphicsContext gc = canvas.getGraphicsContext2D();
-        for (int i = 0; i < sceneSizeX; i += cellSize) {
-            for (int j = 0; j < sceneSizeY; j += cellSize) {
-                if ((i + j) % (2 * cellSize) == 0) {
+        for (int i = 0; i < grid.getGridSizeX(); i++) {
+            for (int j = 0; j < grid.getGridSizeY(); j++) {
+                if ((i + j) % 2 * cellSize == 0) {
                     gc.setFill(Color.DARKGREEN);
                 } else {
                     gc.setFill(Color.GREEN);
                 }
-                gc.fillRect(i, j, cellSize, cellSize);
+                gc.fillRect(i * cellSize, j * cellSize, cellSize, cellSize);
             }
         }
         createFood(gc, food);
