@@ -1,16 +1,15 @@
+import java.util.ArrayList;
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
 public class SimpleSnakeView extends Application {
     private Grid grid;
-    private int cellSize = 20;
+    private int cellSize = 15;
     private Food food;
 
     @Override
@@ -18,6 +17,7 @@ public class SimpleSnakeView extends Application {
         Group root = new Group();
         grid = new Grid();
         Snake snake = new Snake(grid);
+        food = new Food(grid);
         int sceneSizeX = cellSize * grid.getGridSizeX();
         int sceneSizeY = cellSize * grid.getGridSizeY();
         Scene scene = new Scene(root, sceneSizeX, sceneSizeY, Color.WHITE);
@@ -33,15 +33,18 @@ public class SimpleSnakeView extends Application {
                 gc.fillRect(i, j, cellSize, cellSize);
             }
         }
-
-        food = new Food(grid);
-        gc.setFill(Color.RED);
-        gc.fillRect(food.getFoodX() * cellSize, food.getFoodY() * cellSize, cellSize, cellSize);
+        createFood(gc, food);
         showSnake(gc, snake);
         root.getChildren().add(canvas);
         primaryStage.setTitle("JavaFX Grid Example");
         primaryStage.setScene(scene);
         primaryStage.show();
+    }
+
+    public void createFood(GraphicsContext gc, Food food) {
+        food.moveFood(grid);
+        gc.setFill(Color.RED);
+        gc.fillRect(food.getFoodX() * cellSize, food.getFoodY() * cellSize, cellSize, cellSize);
     }
 
     public void showSnake(GraphicsContext gc, Snake snake) {
@@ -51,6 +54,16 @@ public class SimpleSnakeView extends Application {
             gc.setFill(Color.BLACK);
             gc.fillRect(snake.getBody().get(i).getXpos() * cellSize, snake.getBody().get(i).getYpos() * cellSize,
                     cellSize, cellSize);
+        }
+    }
+
+    public void colorCheck(GraphicsContext gc, Snake snake) {
+        ArrayList<SnakeBody> body = snake.getBody();
+        if (((snake.getBody()).get(body.size() - 1).getXpos() + (snake.getBody()).get(body.size() - 1).getYpos())
+                % (2 * cellSize) == 0) {
+            gc.setFill(Color.DARKGREEN);
+        } else {
+            gc.setFill(Color.GREEN);
         }
     }
 
