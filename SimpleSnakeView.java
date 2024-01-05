@@ -13,14 +13,14 @@ import javafx.util.Duration;
 
 public class SimpleSnakeView extends Application {
     private Grid grid;
-    private int cellSize = 50;
+    private int cellSize = 15;
     private Food food;
     private SimpleSnakeController simpleSnakeController;
     private GraphicsContext gc;
 
     @Override
     public void start(Stage primaryStage) {
-        Group root = new Group();   
+        Group root = new Group();
         grid = new Grid();
         Snake snake = new Snake(grid);
         food = new Food(grid);
@@ -39,11 +39,11 @@ public class SimpleSnakeView extends Application {
         gc = canvas.getGraphicsContext2D();
 
         // Tid og start på spil:
-        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(0.1), event -> {
+        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(0.5), event -> {
             snake.move();
-            gc.clearRect(0, 0, sceneSizeX, sceneSizeY);
+            //gc.clearRect(0, 0, sceneSizeX, sceneSizeY);
             drawGrid();
-            createFood();
+            //createFood();
             showSnake(new SnakeState(snake.getHeadX(), snake.getHeadY(), snake.getBody()));
         }));
 
