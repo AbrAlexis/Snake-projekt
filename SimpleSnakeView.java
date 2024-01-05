@@ -48,8 +48,8 @@ public class SimpleSnakeView extends Application {
 
         // Tegn gitter og initialiser scenen
         drawGrid();
-        createFood();
-        showSnake(new Snake(snake.getHeadX(), snake.getHeadY(), snake.getBody()));
+        showFood(food);
+        showSnake(snake);
         root.getChildren().add(canvas);
         primaryStage.setTitle("JavaFX Grid Example");
         primaryStage.setScene(scene);
@@ -69,13 +69,13 @@ public class SimpleSnakeView extends Application {
         }
     }
 
-    private void createFood() {
-        food.moveFood(grid);
+    private void showFood(Food food) {
         gc.setFill(Color.RED);
         gc.fillRect(food.getFoodX() * cellSize, food.getFoodY() * cellSize, cellSize, cellSize);
     }
 
     public void showSnake(Snake snake) {
+        showFood(food);
         // Farve på hoved
         gc.setFill(Color.BLUE);
         gc.fillRect(snake.getHeadX() * cellSize, snake.getHeadY() * cellSize, cellSize, cellSize);
