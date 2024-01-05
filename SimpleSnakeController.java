@@ -21,6 +21,6 @@ public class SimpleSnakeController {
         }
 
         // Opdaterer slangeinformation.
-        snakeView.showSnake(new SnakeState(snakeModel.getHeadX(), snakeModel.getHeadY(), snakeModel.getBody()));
+        snakeView.showSnake(new Snake(snakeModel.getHeadX(), snakeModel.getHeadY(), snakeModel.getBody()));
     }
 }
