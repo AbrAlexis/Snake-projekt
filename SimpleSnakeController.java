@@ -1,26 +1,26 @@
 import javafx.scene.input.KeyCode;
 
 public class SimpleSnakeController {
-    private Snake snakeModel;
     private SimpleSnakeView snakeView;
 
-    public SimpleSnakeController(Snake snakeModel, SimpleSnakeView snakeView) {
-        this.snakeModel = snakeModel;
+    public SimpleSnakeController(SimpleSnakeView snakeView) {
         this.snakeView = snakeView;
+
     }
 
-    public void handleKeyPress(KeyCode keyCode, Snake snakeModel) {
+    public void handleKeyPress(KeyCode keyCode, Snake snake) {
         if (keyCode == KeyCode.UP) {
-            snakeModel.setDirection('U');
+            snake.setDirection('U');
         } else if (keyCode == KeyCode.DOWN) {
-            snakeModel.setDirection('D');
+            snake.setDirection('D');
         } else if (keyCode == KeyCode.LEFT) {
-            snakeModel.setDirection('L');
+            snake.setDirection('L');
         } else if (keyCode == KeyCode.RIGHT) {
-            snakeModel.setDirection('R');
+            snake.setDirection('R');
         }
 
         // Opdaterer slangeinformation.
-        snakeView.showSnake(new Snake(snakeModel.getHeadX(), snakeModel.getHeadY(), snakeModel.getBody()));
+        snakeView.showSnake(snake);
+
     }
 }

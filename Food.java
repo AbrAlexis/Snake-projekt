@@ -17,7 +17,16 @@ public class Food {
     }
 
     public void moveFood(Grid grid) {
-        this.foodX = ThreadLocalRandom.current().nextInt(0, grid.getGridSizeX() + 1);
-        this.foodY = ThreadLocalRandom.current().nextInt(0, grid.getGridSizeY() + 1);
+        this.foodX = ThreadLocalRandom.current().nextInt(0, grid.getGridSizeX());
+        this.foodY = ThreadLocalRandom.current().nextInt(0, grid.getGridSizeY());
+    }
+
+    public void eatFood(Snake snake, Food food, Grid grid) {
+        if (snake.getHeadX() == food.getFoodX() && snake.getHeadY() == food.getFoodY()) {
+            food.moveFood(grid);
+            int tail = snake.getBody().size() - 1;
+            snake.getBody().get(tail);
+            snake.createBodypart(snake.getBody().get(tail).getXpos(), snake.getBody().get(tail).getYpos());
+        }
     }
 }

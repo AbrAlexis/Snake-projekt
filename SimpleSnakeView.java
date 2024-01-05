@@ -24,7 +24,7 @@ public class SimpleSnakeView extends Application {
         grid = new Grid();
         Snake snake = new Snake(grid);
         food = new Food(grid);
-        simpleSnakeController = new SimpleSnakeController(snake, this);
+        simpleSnakeController = new SimpleSnakeController(this);
 
         int sceneSizeX = cellSize * grid.getGridSizeX();
         int sceneSizeY = cellSize * grid.getGridSizeY();
@@ -34,6 +34,7 @@ public class SimpleSnakeView extends Application {
             KeyCode keyCode = e.getCode();
             simpleSnakeController.handleKeyPress(keyCode, snake);
             snake.move();
+            food.eatFood(snake, food, grid);
             gc.clearRect(0, 0, sceneSizeX, sceneSizeY);
             drawGrid();
             showSnake(snake);
