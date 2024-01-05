@@ -20,7 +20,7 @@ public class SimpleSnakeView extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        Group root = new Group();
+        Group root = new Group();   
         grid = new Grid();
         Snake snake = new Snake(grid);
         food = new Food(grid);
@@ -39,7 +39,7 @@ public class SimpleSnakeView extends Application {
         gc = canvas.getGraphicsContext2D();
 
         // Tid og start på spil:
-        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(0.5), event -> {
+        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(0.1), event -> {
             snake.move();
             gc.clearRect(0, 0, sceneSizeX, sceneSizeY);
             drawGrid();
@@ -91,7 +91,7 @@ public class SimpleSnakeView extends Application {
         ArrayList<SnakeBody> body = snakeState.getBody();
         for (int i = 0; i < body.size(); i++) {
             gc.setFill(Color.BLACK);
-            gc.fillRect(body.get(i + 1).getXpos() * cellSize, body.get(i).getYpos() * cellSize, cellSize, cellSize);
+            gc.fillRect(body.get(i).getXpos() * cellSize, body.get(i).getYpos() * cellSize, cellSize, cellSize);
         }
     }
 
