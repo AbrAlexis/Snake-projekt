@@ -1,7 +1,26 @@
+import javafx.scene.input.KeyCode;
+
 public class SimpleSnakeController {
-    //"UP" = pil op
-    //"DOWN" = pil ned
-    //"RIGHT" = pil højre
-    //"LEFT" = pil venstre
-    
+    private Snake snakeModel;
+    private SimpleSnakeView snakeView;
+
+    public SimpleSnakeController(Snake snakeModel, SimpleSnakeView snakeView) {
+        this.snakeModel = snakeModel;
+        this.snakeView = snakeView;
+    }
+
+    public void handleKeyPress(KeyCode keyCode) {
+        if (keyCode == KeyCode.UP) {
+            snakeModel.setDirection('U');
+        } else if (keyCode == KeyCode.DOWN) {
+            snakeModel.setDirection('D');
+        } else if (keyCode == KeyCode.LEFT) {
+            snakeModel.setDirection('L');
+        } else if (keyCode == KeyCode.RIGHT) {
+            snakeModel.setDirection('R');
+        }
+
+        // Opdaterer slangeinformation.
+        snakeView.showSnake(new SnakeState(snakeModel.getHeadX(), snakeModel.getHeadY(), snakeModel.getBody()));
+    }
 }

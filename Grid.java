@@ -1,4 +1,5 @@
 import java.util.*;
+import javafx.scene.canvas.Canvas;
 
 public class Grid {
     private int gridSizeX;
@@ -19,8 +20,12 @@ public class Grid {
         return gridSizeY;
     }
 
-    public char[][] getgrid() {
+    public char[][] getGrid() {
         return grid;
+    }
+
+    public Canvas getCanvas() {
+        return new Canvas();
     }
 
     public void updateCell(int row, int col, char direction) {

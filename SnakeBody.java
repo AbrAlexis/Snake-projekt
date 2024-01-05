@@ -15,4 +15,12 @@ public class SnakeBody {
         return yPos;
     }
 
+    public void setXpos(int x) {
+        this.xPos = x;
+    }
+
+    public void setYpos(int y) {
+        this.yPos = y;
+    }
+
 }
