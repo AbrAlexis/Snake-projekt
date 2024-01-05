@@ -33,22 +33,14 @@ public class SimpleSnakeView extends Application {
         scene.setOnKeyPressed(e -> {
             KeyCode keyCode = e.getCode();
             simpleSnakeController.handleKeyPress(keyCode, snake);
+            snake.move();
+            gc.clearRect(0, 0, sceneSizeX, sceneSizeY);
+            drawGrid();
+            showSnake(snake);
         });
 
         final Canvas canvas = new Canvas(sceneSizeX, sceneSizeY);
         gc = canvas.getGraphicsContext2D();
-
-        // Tid og start på spil:
-        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(0.5), event -> {
-            snake.move();
-            gc.clearRect(0, 0, sceneSizeX, sceneSizeY);
-            drawGrid();
-            createFood();
-            showSnake(new Snake(snake.getHeadX(), snake.getHeadY(), snake.getBody()));
-        }));
-
-        timeline.setCycleCount(Timeline.INDEFINITE);
-        timeline.play();
 
         for (int i = 0; i < 5; i++) {
             snake.createBodypart(snake.getHeadX(), snake.getBody().get(i).getYpos() + 1);
