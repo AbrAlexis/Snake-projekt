@@ -41,10 +41,10 @@ public class SimpleSnakeView extends Application {
         // Tid og start på spil:
         Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(0.5), event -> {
             snake.move();
-            //gc.clearRect(0, 0, sceneSizeX, sceneSizeY);
+            gc.clearRect(0, 0, sceneSizeX, sceneSizeY);
             drawGrid();
-            //createFood();
-            showSnake(new SnakeState(snake.getHeadX(), snake.getHeadY(), snake.getBody()));
+            createFood();
+            showSnake(new Snake(snake.getHeadX(), snake.getHeadY(), snake.getBody()));
         }));
 
         timeline.setCycleCount(Timeline.INDEFINITE);
@@ -57,7 +57,7 @@ public class SimpleSnakeView extends Application {
         // Tegn gitter og initialiser scenen
         drawGrid();
         createFood();
-        showSnake(new SnakeState(snake.getHeadX(), snake.getHeadY(), snake.getBody()));
+        showSnake(new Snake(snake.getHeadX(), snake.getHeadY(), snake.getBody()));
         root.getChildren().add(canvas);
         primaryStage.setTitle("JavaFX Grid Example");
         primaryStage.setScene(scene);
@@ -83,12 +83,12 @@ public class SimpleSnakeView extends Application {
         gc.fillRect(food.getFoodX() * cellSize, food.getFoodY() * cellSize, cellSize, cellSize);
     }
 
-    public void showSnake(SnakeState snakeState) {
+    public void showSnake(Snake snake) {
         // Farve på hoved
         gc.setFill(Color.BLUE);
-        gc.fillRect(snakeState.getHeadX() * cellSize, snakeState.getHeadY() * cellSize, cellSize, cellSize);
+        gc.fillRect(snake.getHeadX() * cellSize, snake.getHeadY() * cellSize, cellSize, cellSize);
         // Farve på krop
-        ArrayList<SnakeBody> body = snakeState.getBody();
+        ArrayList<SnakeBody> body = snake.getBody();
         for (int i = 0; i < body.size(); i++) {
             gc.setFill(Color.BLACK);
             gc.fillRect(body.get(i).getXpos() * cellSize, body.get(i).getYpos() * cellSize, cellSize, cellSize);

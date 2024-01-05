@@ -8,10 +8,10 @@ public class Snake {
     private char direction;
     private ArrayList<SnakeBody> body;
     private Grid grid;
-    int oldHeadX = headX;
-    int oldHeadY = headY;
+    private int oldHeadX = headX;
+    private int oldHeadY = headY;
 
-    public Snake(Grid grid) {
+    public Snake(Grid grid) { // Creates the Gamestart Snake
         int gridMiddleX = (int) Math.floor(Double.valueOf(grid.getGridSizeX() / 2));
         int gridMiddleY = (int) Math.floor(Double.valueOf(grid.getGridSizeY() / 2));
         this.headX = gridMiddleX;
@@ -23,6 +23,12 @@ public class Snake {
         grid.updateCell(gridMiddleX, gridMiddleY + 1, 'L');
         this.oldHeadX = gridMiddleX;
         this.oldHeadY = gridMiddleY;
+    }
+
+    public Snake(int headX, int headY, ArrayList<SnakeBody> body) { // Creates Snake
+        this.headX = headX;
+        this.headY = headY;
+        this.body = body;
     }
 
     // Metoder for snakkens krop og position.
