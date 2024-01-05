@@ -9,7 +9,7 @@ public class SimpleSnakeController {
         this.snakeView = snakeView;
     }
 
-    public void handleKeyPress(KeyCode keyCode) {
+    public void handleKeyPress(KeyCode keyCode, Snake snakeModel) {
         if (keyCode == KeyCode.UP) {
             snakeModel.setDirection('U');
         } else if (keyCode == KeyCode.DOWN) {
@@ -21,6 +21,6 @@ public class SimpleSnakeController {
         }
 
         // Opdaterer slangeinformation.
-        snakeView.showSnake(new SnakeState(snakeModel.getHeadX(), snakeModel.getHeadY(), snakeModel.getBody()));
+        snakeView.showSnake(new Snake(snakeModel.getHeadX(), snakeModel.getHeadY(), snakeModel.getBody()));
     }
 }

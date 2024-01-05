@@ -32,7 +32,7 @@ public class SimpleSnakeView extends Application {
 
         scene.setOnKeyPressed(e -> {
             KeyCode keyCode = e.getCode();
-            simpleSnakeController.handleKeyPress(keyCode);
+            simpleSnakeController.handleKeyPress(keyCode, snake);
         });
 
         final Canvas canvas = new Canvas(sceneSizeX, sceneSizeY);
