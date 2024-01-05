@@ -63,10 +63,8 @@ public class Snake {
 
     // Metode til at opdatere slangebevægelse baseret på retningen.
     public void move() {
-        moveBody();
         oldHeadX = headX;
         oldHeadY = headY;
-
         if (direction == 'U') {
             headY--;
         } else if (direction == 'D') {
@@ -76,7 +74,7 @@ public class Snake {
         } else if (direction == 'R') {
             headX++;
         }
-
+        moveBody();
     }
 
     // Metode der rykker kroppen og sørger for at den følger leddet foran.
