@@ -1,7 +1,5 @@
 import java.util.*;
 
-import javafx.scene.canvas.GraphicsContext;
-
 public class Snake {
     private int headX;
     private int headY;
@@ -9,8 +7,6 @@ public class Snake {
     private ArrayList<SnakeBody> body;
     private int oldHeadX = headX;
     private int oldHeadY = headY;
-    private int oldTailX;
-    private int oldTailY;
 
     public Snake(Grid grid) { // Creates the Gamestart Snake
         int gridMiddleX = (int) Math.floor(Double.valueOf(grid.getGridSizeX() / 2));
@@ -120,6 +116,14 @@ public class Snake {
             if (headX == body.get(i).getXpos() && headY == body.get(i).getYpos()) {
                 System.out.println("collision");
             }
+        }
+    }
+
+    public void hasEatenApple(Food food, Grid grid, SnakeBody snakeBody) {
+
+        if (food.eatFood(this, food, grid) == true) {
+
+            body.add(snakeBody);
         }
     }
 }

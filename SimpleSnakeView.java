@@ -23,20 +23,23 @@ public class SimpleSnakeView extends Application {
         Group root = new Group();
         grid = new Grid();
         Snake snake = new Snake(grid);
-        food = new Food(grid);
+        Food food = new Food(grid);
         simpleSnakeController = new SimpleSnakeController(this);
         int sceneSizeX = cellSize * grid.getGridSizeX();
         int sceneSizeY = cellSize * grid.getGridSizeY();
         Scene scene = new Scene(root, sceneSizeX, sceneSizeY, Color.WHITE);
 
         scene.setOnKeyPressed(e -> {
-
+            SnakeBody tail = new SnakeBody(snake.getBody().get(snake.getBody().size() - 1).getXpos(),
+                    snake.getBody().get(snake.getBody().size() - 1).getYpos());
             KeyCode keyCode = e.getCode();
             simpleSnakeController.handleKeyPress(keyCode, snake, grid);
             snake.selfCollision();
+            snake.hasEatenApple(food, grid, tail);
             snake.updateGrid(grid);
             food.eatFood(snake, food, grid);
             drawGrid();
+            showFood(food);
             showSnake(snake);
         });
 
@@ -46,7 +49,6 @@ public class SimpleSnakeView extends Application {
         // Tegn gitter og initialiser scenen
         drawGrid();
         showFood(food);
-
         showSnake(snake);
         root.getChildren().add(canvas);
         primaryStage.setTitle("JavaFX Grid Example");
@@ -73,7 +75,7 @@ public class SimpleSnakeView extends Application {
     }
 
     public void showSnake(Snake snake) {
-        showFood(food);
+
         // Farve på hoved
         gc.setFill(Color.BLUE);
         gc.fillRect(snake.getHeadX() * cellSize, snake.getHeadY() * cellSize, cellSize, cellSize);

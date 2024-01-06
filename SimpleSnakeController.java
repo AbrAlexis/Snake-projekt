@@ -13,18 +13,18 @@ public class SimpleSnakeController {
 
         if (keyCode == KeyCode.UP && direction != 'D') {
             snake.setDirection('U');
-            snake.move(grid);
+
         } else if (keyCode == KeyCode.DOWN && direction != 'U') {
             snake.setDirection('D');
-            snake.move(grid);
+
         } else if (keyCode == KeyCode.LEFT && direction != 'R') {
             snake.setDirection('L');
-            snake.move(grid);
+
         } else if (keyCode == KeyCode.RIGHT && direction != 'L') {
             snake.setDirection('R');
-            snake.move(grid);
-        }
 
+        }
+        snake.move(grid);
         // Opdaterer slangeinformation.
         snakeView.showSnake(snake);
     }

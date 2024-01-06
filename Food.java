@@ -23,13 +23,14 @@ public class Food {
         } while (grid.getType(this.foodX, this.foodY) == 1);
     }
 
-    public void eatFood(Snake snake, Food food, Grid grid) {
-
+    public boolean eatFood(Snake snake, Food food, Grid grid) {
         if (snake.getHeadX() == food.getFoodX() && snake.getHeadY() == food.getFoodY()) {
             food.moveFood(grid);
-            int tail = snake.getBody().size() - 1;
-            snake.createBodypart(snake.getBody().get(tail).getXpos(), snake.getBody().get(tail).getYpos());
-
+            // int tail = snake.getBody().size() - 1;
+            // snake.createBodypart(snake.getBody().get(tail).getXpos(),
+            // snake.getBody().get(tail).getYpos());
+            return true;
         }
+        return false;
     }
 }
