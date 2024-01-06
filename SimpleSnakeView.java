@@ -25,27 +25,22 @@ public class SimpleSnakeView extends Application {
         Snake snake = new Snake(grid);
         food = new Food(grid);
         simpleSnakeController = new SimpleSnakeController(this);
-
         int sceneSizeX = cellSize * grid.getGridSizeX();
         int sceneSizeY = cellSize * grid.getGridSizeY();
         Scene scene = new Scene(root, sceneSizeX, sceneSizeY, Color.WHITE);
 
         scene.setOnKeyPressed(e -> {
             KeyCode keyCode = e.getCode();
-            simpleSnakeController.handleKeyPress(keyCode, snake);
-            snake.move();
+            simpleSnakeController.handleKeyPress(keyCode, snake, grid);
+            snake.selfCollision();
             food.eatFood(snake, food, grid);
-            gc.clearRect(0, 0, sceneSizeX, sceneSizeY);
             drawGrid();
+            grid.testDraw();
             showSnake(snake);
         });
 
         final Canvas canvas = new Canvas(sceneSizeX, sceneSizeY);
         gc = canvas.getGraphicsContext2D();
-
-        for (int i = 0; i < 5; i++) {
-            snake.createBodypart(snake.getHeadX(), snake.getBody().get(i).getYpos() + 1);
-        }
 
         // Tegn gitter og initialiser scenen
         drawGrid();

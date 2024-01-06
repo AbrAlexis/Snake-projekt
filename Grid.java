@@ -4,12 +4,12 @@ import javafx.scene.canvas.Canvas;
 public class Grid {
     private int gridSizeX;
     private int gridSizeY;
-    private char[][] grid;
+    private int[][] grid;
 
     public Grid() {
         this.gridSizeX = createGrid("Please enter grid width: ");
         this.gridSizeY = createGrid("Please enter grid height: ");
-        this.grid = new char[gridSizeX][gridSizeY];
+        this.grid = new int[gridSizeX][gridSizeY];
     }
 
     public int getGridSizeX() {
@@ -20,7 +20,7 @@ public class Grid {
         return gridSizeY;
     }
 
-    public char[][] getGrid() {
+    public int[][] getGrid() {
         return grid;
     }
 
@@ -28,8 +28,12 @@ public class Grid {
         return new Canvas();
     }
 
-    public void updateCell(int row, int col, char direction) {
-        grid[row][col] = direction;
+    public int getType(int row, int col) {
+        return grid[row][col];
+    }
+
+    public void updateCell(int row, int col, int type) {
+        grid[row][col] = type;
     }
 
     public int createGrid(String prompt) { // Gets user input for grid width and grid height

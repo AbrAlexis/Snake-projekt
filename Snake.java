@@ -20,7 +20,7 @@ public class Snake {
         this.grid = grid;
         this.body = new ArrayList<SnakeBody>(1);
         body.add(new SnakeBody(gridMiddleX, gridMiddleY + 1));
-        grid.updateCell(gridMiddleX, gridMiddleY + 1, 'L');
+
         this.oldHeadX = gridMiddleX;
         this.oldHeadY = gridMiddleY;
     }
@@ -50,6 +50,7 @@ public class Snake {
 
     public void createBodypart(int x, int y) {
         body.add(new SnakeBody(x, y));
+
     }
 
     // Metoder til retningen for slangen.
@@ -62,10 +63,20 @@ public class Snake {
     }
 
     // Metode til at opdatere slangebevægelse baseret på retningen.
-    public void move() {
+    public void move(Grid grid) {
         oldHeadX = headX;
         oldHeadY = headY;
-        if (direction == 'U') {
+        // The first four statements handle the torus aspect
+        if (oldHeadY == 0 && direction == 'U') {
+            headY = grid.getGridSizeY() - 1;
+        } else if (oldHeadY == grid.getGridSizeY() - 1 && direction == 'D') {
+            headY = 0;
+        } else if (oldHeadX == 0 && direction == 'L') {
+            headX = grid.getGridSizeX() - 1;
+        } else if (oldHeadX == grid.getGridSizeX() - 1 && direction == 'R') {
+            headX = 0;
+            // These four statements handle general movement
+        } else if (direction == 'U') {
             headY--;
         } else if (direction == 'D') {
             headY++;
@@ -74,17 +85,21 @@ public class Snake {
         } else if (direction == 'R') {
             headX++;
         }
-        moveBody();
+        moveBody(grid);
     }
 
     // Metode der rykker kroppen og sørger for at den følger leddet foran.
-    private void moveBody() {
+    private void moveBody(Grid grid) {
         if (body.size() > 0) {
             for (int i = body.size() - 1; i > 0; i--) {
                 SnakeBody currentBodyPart = body.get(i);
                 SnakeBody previousBodyPart = body.get(i - 1);
                 currentBodyPart.setXpos(previousBodyPart.getXpos());
                 currentBodyPart.setYpos(previousBodyPart.getYpos());
+                grid.updateCell(currentBodyPart.getXpos(), currentBodyPart.getYpos(), 1);
+                if (i == body.size() - 1) {
+                    grid.updateCell(currentBodyPart.getXpos(), currentBodyPart.getYpos(), 0);
+                }
             }
 
             // Opdatering der sørger for at den forreste kropsdel følger hovedet.
@@ -96,5 +111,13 @@ public class Snake {
 
     public GraphicsContext getGraphicsContext() {
         return grid.getCanvas().getGraphicsContext2D();
+    }
+
+    public void selfCollision() {
+        for (int i = 0; i < body.size(); i++) {
+            if (headX == body.get(i).getXpos() && headY == body.get(i).getYpos()) {
+                System.out.println("collision");
+            }
+        }
     }
 }

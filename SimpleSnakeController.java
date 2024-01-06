@@ -8,19 +8,28 @@ public class SimpleSnakeController {
 
     }
 
-    public void handleKeyPress(KeyCode keyCode, Snake snake) {
-        if (keyCode == KeyCode.UP) {
+    public void handleKeyPress(KeyCode keyCode, Snake snake, Grid grid) {
+        char direction = snake.getDirection();
+
+        if (keyCode == KeyCode.UP && direction != 'D') {
             snake.setDirection('U');
-        } else if (keyCode == KeyCode.DOWN) {
+            snake.move(grid);
+        } else if (keyCode == KeyCode.DOWN && direction != 'U') {
             snake.setDirection('D');
-        } else if (keyCode == KeyCode.LEFT) {
+            snake.move(grid);
+        } else if (keyCode == KeyCode.LEFT && direction != 'R') {
             snake.setDirection('L');
-        } else if (keyCode == KeyCode.RIGHT) {
+            snake.move(grid);
+        } else if (keyCode == KeyCode.RIGHT && direction != 'L') {
             snake.setDirection('R');
+            snake.move(grid);
         }
 
         // Opdaterer slangeinformation.
         snakeView.showSnake(snake);
+    }
+
+    public void torus() {
 
     }
 }
