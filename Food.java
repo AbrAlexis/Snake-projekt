@@ -28,7 +28,6 @@ public class Food {
         if (snake.getHeadX() == food.getFoodX() && snake.getHeadY() == food.getFoodY()) {
             food.moveFood(grid);
             int tail = snake.getBody().size() - 1;
-            // snake.getBody().get(tail);
             snake.createBodypart(snake.getBody().get(tail).getXpos(), snake.getBody().get(tail).getYpos());
 
         }

@@ -30,12 +30,13 @@ public class SimpleSnakeView extends Application {
         Scene scene = new Scene(root, sceneSizeX, sceneSizeY, Color.WHITE);
 
         scene.setOnKeyPressed(e -> {
+
             KeyCode keyCode = e.getCode();
             simpleSnakeController.handleKeyPress(keyCode, snake, grid);
             snake.selfCollision();
+            snake.updateGrid(grid);
             food.eatFood(snake, food, grid);
             drawGrid();
-            grid.testDraw();
             showSnake(snake);
         });
 
@@ -45,6 +46,7 @@ public class SimpleSnakeView extends Application {
         // Tegn gitter og initialiser scenen
         drawGrid();
         showFood(food);
+
         showSnake(snake);
         root.getChildren().add(canvas);
         primaryStage.setTitle("JavaFX Grid Example");

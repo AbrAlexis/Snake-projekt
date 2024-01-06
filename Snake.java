@@ -7,9 +7,10 @@ public class Snake {
     private int headY;
     private char direction;
     private ArrayList<SnakeBody> body;
-    private Grid grid;
     private int oldHeadX = headX;
     private int oldHeadY = headY;
+    private int oldTailX;
+    private int oldTailY;
 
     public Snake(Grid grid) { // Creates the Gamestart Snake
         int gridMiddleX = (int) Math.floor(Double.valueOf(grid.getGridSizeX() / 2));
@@ -17,7 +18,6 @@ public class Snake {
         this.headX = gridMiddleX;
         this.headY = gridMiddleY;
         this.direction = 'L';
-        this.grid = grid;
         this.body = new ArrayList<SnakeBody>(1);
         body.add(new SnakeBody(gridMiddleX, gridMiddleY + 1));
 
@@ -50,7 +50,6 @@ public class Snake {
 
     public void createBodypart(int x, int y) {
         body.add(new SnakeBody(x, y));
-
     }
 
     // Metoder til retningen for slangen.
@@ -96,12 +95,7 @@ public class Snake {
                 SnakeBody previousBodyPart = body.get(i - 1);
                 currentBodyPart.setXpos(previousBodyPart.getXpos());
                 currentBodyPart.setYpos(previousBodyPart.getYpos());
-                grid.updateCell(currentBodyPart.getXpos(), currentBodyPart.getYpos(), 1);
-                if (i == body.size() - 1) {
-                    grid.updateCell(currentBodyPart.getXpos(), currentBodyPart.getYpos(), 0);
-                }
             }
-
             // Opdatering der sørger for at den forreste kropsdel følger hovedet.
             SnakeBody firstBodyPart = body.get(0);
             firstBodyPart.setXpos(oldHeadX);
@@ -109,8 +103,16 @@ public class Snake {
         }
     }
 
-    public GraphicsContext getGraphicsContext() {
-        return grid.getCanvas().getGraphicsContext2D();
+    public void updateGrid(Grid grid) {
+        for (int i = 0; i < grid.getGridSizeX(); i++) {
+            for (int j = 0; j < grid.getGridSizeY(); j++) {
+                grid.updateCell(i, j, 0);
+            }
+        }
+        grid.updateCell(headX, headY, 1);
+        for (int i = 0; i < body.size(); i++) {
+            grid.updateCell(body.get(i).getXpos(), body.get(i).getYpos(), 1);
+        }
     }
 
     public void selfCollision() {
