@@ -6,57 +6,43 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
 public class SimpleSnakeView extends Application {
-    private Grid grid;
-    private int cellSize = 15;
-    private Food food;
+    private final int CELL_SIZE = 15;
     private SimpleSnakeController simpleSnakeController;
     private GraphicsContext gc;
 
     @Override
     public void start(Stage primaryStage) {
         Group root = new Group();
-        grid = new Grid();
+        Grid grid = new Grid();
         Snake snake = new Snake(grid);
         Food food = new Food(grid);
-        simpleSnakeController = new SimpleSnakeController(this);
-        int sceneSizeX = cellSize * grid.getGridSizeX();
-        int sceneSizeY = cellSize * grid.getGridSizeY();
+
+        int sceneSizeX = CELL_SIZE * grid.getGridSizeX();
+        int sceneSizeY = CELL_SIZE * grid.getGridSizeY();
+
         Scene scene = new Scene(root, sceneSizeX, sceneSizeY, Color.WHITE);
-
-        scene.setOnKeyPressed(e -> {
-            SnakeBody tail = new SnakeBody(snake.getBody().get(snake.getBody().size() - 1).getXpos(),
-                    snake.getBody().get(snake.getBody().size() - 1).getYpos());
-            KeyCode keyCode = e.getCode();
-            simpleSnakeController.handleKeyPress(keyCode, snake, grid);
-            snake.selfCollision();
-            snake.hasEatenApple(food, grid, tail);
-            snake.updateGrid(grid);
-            food.eatFood(snake, food, grid);
-            drawGrid();
-            showFood(food);
-            showSnake(snake);
-        });
-
         final Canvas canvas = new Canvas(sceneSizeX, sceneSizeY);
         gc = canvas.getGraphicsContext2D();
-
-        // Tegn gitter og initialiser scenen
-        drawGrid();
-        showFood(food);
-        showSnake(snake);
         root.getChildren().add(canvas);
         primaryStage.setTitle("JavaFX Grid Example");
         primaryStage.setScene(scene);
         primaryStage.show();
+
+        simpleSnakeController = new SimpleSnakeController(this);
+        simpleSnakeController.setupKeyPressHandler(scene, snake, grid, food);
+
+        drawGrid(grid);
+        showFood(food);
+        showSnake(snake);
+
     }
 
-    private void drawGrid() {
+    public void drawGrid(Grid grid) {
         for (int i = 0; i < grid.getGridSizeX(); i++) {
             for (int j = 0; j < grid.getGridSizeY(); j++) {
                 if ((i + j) % 2 == 0) {
@@ -64,26 +50,25 @@ public class SimpleSnakeView extends Application {
                 } else {
                     gc.setFill(Color.GREEN);
                 }
-                gc.fillRect(i * cellSize, j * cellSize, cellSize, cellSize);
+                gc.fillRect(i * CELL_SIZE, j * CELL_SIZE, CELL_SIZE, CELL_SIZE);
             }
         }
     }
 
-    private void showFood(Food food) {
+    public void showFood(Food food) {
         gc.setFill(Color.RED);
-        gc.fillRect(food.getFoodX() * cellSize, food.getFoodY() * cellSize, cellSize, cellSize);
+        gc.fillRect(food.getFoodX() * CELL_SIZE, food.getFoodY() * CELL_SIZE, CELL_SIZE, CELL_SIZE);
     }
 
     public void showSnake(Snake snake) {
-
         // Farve på hoved
         gc.setFill(Color.BLUE);
-        gc.fillRect(snake.getHeadX() * cellSize, snake.getHeadY() * cellSize, cellSize, cellSize);
+        gc.fillRect(snake.getHeadX() * CELL_SIZE, snake.getHeadY() * CELL_SIZE, CELL_SIZE, CELL_SIZE);
         // Farve på krop
         ArrayList<SnakeBody> body = snake.getBody();
         for (int i = 0; i < body.size(); i++) {
             gc.setFill(Color.BLACK);
-            gc.fillRect(body.get(i).getXpos() * cellSize, body.get(i).getYpos() * cellSize, cellSize, cellSize);
+            gc.fillRect(body.get(i).getXpos() * CELL_SIZE, body.get(i).getYpos() * CELL_SIZE, CELL_SIZE, CELL_SIZE);
         }
     }
 
