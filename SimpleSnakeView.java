@@ -1,6 +1,4 @@
 import java.util.ArrayList;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -10,6 +8,7 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import javafx.scene.layout.BorderPane;
@@ -18,14 +17,17 @@ public class SimpleSnakeView extends Application {
     private final int CELL_SIZE = 15;
     private SimpleSnakeController simpleSnakeController;
     private GraphicsContext gc;
+    private boolean gameOverFlag = false;
+    Grid grid;
     public Button button;
     public Group root;
     public BorderPane borderpane;
 
     @Override
     public void start(Stage primaryStage) {
+        grid = new Grid();
+
         Group root = new Group();
-        Grid grid = new Grid();
         Snake snake = new Snake(grid);
         Food food = new Food(grid);
         this.button = new Button("LAD OS BEGYNDE!!!!!!!!!!!!!!!!!!!");
@@ -51,6 +53,10 @@ public class SimpleSnakeView extends Application {
         borderpane.setPadding(new Insets(sceneSizeY / 2, (sceneSizeX / 2), (sceneSizeY / 2), (sceneSizeX / 2) - 75));
         borderpane.setCenter(button);
         root.getChildren().add(borderpane);
+        drawGrid(grid);
+        showSnake(snake);
+        showFood(food);
+
     }
 
     public void drawGrid(Grid grid) {
@@ -63,6 +69,21 @@ public class SimpleSnakeView extends Application {
                 }
                 gc.fillRect(i * CELL_SIZE, j * CELL_SIZE, CELL_SIZE, CELL_SIZE);
             }
+        }
+    }
+
+    // Metode der tjekker selfcollision og derefter printer "Game Over".
+    public void gameOver(Snake snake, Scene scene) {
+        int size;
+        int minGridSize = Math.min(grid.getGridSizeX(), grid.getGridSizeY());
+        size = Math.min(Math.max(5, minGridSize * CELL_SIZE / 6), 75);
+        if (snake.selfCollision() && !gameOverFlag) {
+            gameOverFlag = true; // Set the flag to true to avoid multiple calls
+            gc.setFill(Color.RED);
+            gc.setFont(new Font("Times New Roman", size));
+            gc.fillText("Game Over" + "\n Score: " + snake.getBody().size(), scene.getWidth() / 8,
+                    scene.getHeight() / 2);
+            gameOverFlag = false;
         }
     }
 

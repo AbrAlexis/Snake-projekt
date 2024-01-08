@@ -18,14 +18,16 @@ public class SimpleSnakeController {
             SnakeBody tail = new SnakeBody(snake.getBody().get(snake.getBody().size() - 1).getXpos(),
                     snake.getBody().get(snake.getBody().size() - 1).getYpos());
             KeyCode keyCode = e.getCode();
+
             handleKeyPress(keyCode, snake, grid);
-            snake.selfCollision();
             snake.hasEatenApple(food, grid, tail);
             snake.updateGrid(grid);
             food.eatFood(snake, food, grid);
+            snake.selfCollision();
             snakeView.drawGrid(grid);
             snakeView.showFood(food);
             snakeView.showSnake(snake);
+            snakeView.gameOver(snake, scene);
         });
     }
 
