@@ -9,9 +9,10 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import javafx.scene.text.Font;
 
 public class SimpleSnakeView extends Application {
-    private final int CELL_SIZE = 15;
+    private final int CELL_SIZE = 50;
     private SimpleSnakeController simpleSnakeController;
     private GraphicsContext gc;
 
@@ -35,10 +36,6 @@ public class SimpleSnakeView extends Application {
 
         simpleSnakeController = new SimpleSnakeController(this);
         simpleSnakeController.setupKeyPressHandler(scene, snake, grid, food);
-
-        drawGrid(grid);
-        showFood(food);
-        showSnake(snake);
 
     }
 
