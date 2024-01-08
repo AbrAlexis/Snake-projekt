@@ -111,12 +111,15 @@ public class Snake {
         }
     }
 
-    public void selfCollision() {
+    public boolean selfCollision() {
         for (int i = 0; i < body.size(); i++) {
             if (headX == body.get(i).getXpos() && headY == body.get(i).getYpos()) {
-                System.out.println("collision");
+                System.out.println("collisoin");
+                return true;
+
             }
         }
+        return false;
     }
 
     public void hasEatenApple(Food food, Grid grid, SnakeBody snakeBody) {

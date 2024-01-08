@@ -1,24 +1,25 @@
 import java.util.ArrayList;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
-import javafx.util.Duration;
 
 public class SimpleSnakeView extends Application {
     private final int CELL_SIZE = 15;
     private SimpleSnakeController simpleSnakeController;
     private GraphicsContext gc;
+    private boolean gameOverFlag = false;
+    Grid grid;
 
     @Override
     public void start(Stage primaryStage) {
+        grid = new Grid();
+
         Group root = new Group();
-        Grid grid = new Grid();
         Snake snake = new Snake(grid);
         Food food = new Food(grid);
 
@@ -37,8 +38,8 @@ public class SimpleSnakeView extends Application {
         simpleSnakeController.setupKeyPressHandler(scene, snake, grid, food);
 
         drawGrid(grid);
-        showFood(food);
         showSnake(snake);
+        showFood(food);
 
     }
 
@@ -52,6 +53,21 @@ public class SimpleSnakeView extends Application {
                 }
                 gc.fillRect(i * CELL_SIZE, j * CELL_SIZE, CELL_SIZE, CELL_SIZE);
             }
+        }
+    }
+
+    // Metode der tjekker selfcollision og derefter printer "Game Over".
+    public void gameOver(Snake snake, Scene scene) {
+        int size;
+        int minGridSize = Math.min(grid.getGridSizeX(), grid.getGridSizeY());
+        size = Math.min(Math.max(5, minGridSize * CELL_SIZE / 6), 75);
+        if (snake.selfCollision() && !gameOverFlag) {
+            gameOverFlag = true; // Set the flag to true to avoid multiple calls
+            gc.setFill(Color.RED);
+            gc.setFont(new Font("Times New Roman", size));
+            gc.fillText("Game Over" + "\n Score: " + snake.getBody().size(), scene.getWidth() / 8,
+                    scene.getHeight() / 2);
+            gameOverFlag = false;
         }
     }
 
