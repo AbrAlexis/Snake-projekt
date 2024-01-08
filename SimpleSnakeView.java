@@ -48,7 +48,7 @@ public class SimpleSnakeView extends Application {
                 timeline.stop();
                 gc.setFill(Color.RED);
                 gc.setFont(new Font("Times New Roman", 30));
-                gc.fillText("Game Over" + "\n Score: ", scene.getWidth() / 4, scene.getHeight() / 2);
+                gc.fillText("Game Over" + "\n Score: " + snake.getSize(), scene.getWidth() / 4, scene.getHeight() / 2);
 
             }
         }));
