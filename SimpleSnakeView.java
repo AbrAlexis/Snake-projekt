@@ -54,9 +54,6 @@ public class SimpleSnakeView extends Application {
         borderpane.setCenter(button);
         root.getChildren().add(borderpane);
         drawGrid(grid);
-        showSnake(snake);
-        showFood(food);
-
     }
 
     public void drawGrid(Grid grid) {

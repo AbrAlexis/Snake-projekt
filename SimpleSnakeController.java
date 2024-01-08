@@ -57,7 +57,6 @@ public class SimpleSnakeController {
                 snakeView.showSnake(snake);
                 button.setTranslateX(100000);
                 button.setDisable(true);
-                snakeView.root.getChildren().remove(snakeView.borderpane);
 
             }
         });
