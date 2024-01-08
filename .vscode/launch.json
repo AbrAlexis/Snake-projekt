@@ -9,6 +9,13 @@
       "name": "SimpleSnakeView",
       "request": "launch",
       "mainClass": "SimpleSnakeView",
+      "projectName": "Snake-projekt_26082a62"
+    },
+    {
+      "type": "java",
+      "name": "SimpleSnakeView",
+      "request": "launch",
+      "mainClass": "SimpleSnakeView",
       "projectName": "Snake-projekt_9f8d8b50"
     },
     {

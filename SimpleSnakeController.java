@@ -1,11 +1,16 @@
 import javafx.scene.input.KeyCode;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.Scene;
+import javafx.event.*;
+import javafx.scene.control.Button;
 
 public class SimpleSnakeController {
     private SimpleSnakeView snakeView;
+    private EventHandler<ActionEvent> eventHandler;
 
     public SimpleSnakeController(SimpleSnakeView snakeView) {
         this.snakeView = snakeView;
+
     }
 
     public void setupKeyPressHandler(Scene scene, Snake snake, Grid grid, Food food) {
@@ -40,6 +45,19 @@ public class SimpleSnakeController {
             snake.setDirection('R');
             snake.move(grid);
         }
+    }
 
+    public void startGame(Button button, Food food, Snake snake) {
+        button.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent e) {
+                snakeView.showFood(food);
+                snakeView.showSnake(snake);
+                button.setTranslateX(100000);
+                button.setDisable(true);
+                snakeView.root.getChildren().remove(snakeView.borderpane);
+
+            }
+        });
     }
 }
