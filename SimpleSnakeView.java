@@ -15,7 +15,6 @@ public class SimpleSnakeView extends Application {
     private final int CELL_SIZE = 50;
     private SimpleSnakeController simpleSnakeController;
     private GraphicsContext gc;
-    private Timeline timeline;
 
     @Override
     public void start(Stage primaryStage) {
@@ -38,23 +37,6 @@ public class SimpleSnakeView extends Application {
         simpleSnakeController = new SimpleSnakeController(this);
         simpleSnakeController.setupKeyPressHandler(scene, snake, grid, food);
 
-        timeline = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
-            drawGrid(grid);
-            snake.move(grid);
-            showFood(food);
-            showSnake(snake);
-
-            if (snake.selfCollision()) {
-                timeline.stop();
-                gc.setFill(Color.RED);
-                gc.setFont(new Font("Times New Roman", 30));
-                gc.fillText("Game Over" + "\n Score: ", scene.getWidth() / 4, scene.getHeight() / 2);
-
-            }
-        }));
-
-        timeline.setCycleCount(Timeline.INDEFINITE);
-        timeline.play();
     }
 
     public void drawGrid(Grid grid) {
