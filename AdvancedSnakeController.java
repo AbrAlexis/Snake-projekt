@@ -1,8 +1,14 @@
 import javafx.scene.input.KeyCode;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.Scene;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.event.*;
+import javafx.scene.control.Button;
 
 public class AdvancedSnakeController {
     private AdvancedSnakeView snakeView;
+    private EventHandler<ActionEvent> eventHandler;
 
     public AdvancedSnakeController(AdvancedSnakeView snakeView) {
         this.snakeView = snakeView;
@@ -27,6 +33,21 @@ public class AdvancedSnakeController {
         } else if (keyCode == KeyCode.RIGHT && direction != 'L') {
             snake.setDirection('R');
         }
-
     }
+
+    public void startGame(Button button, Food food, Snake snake, Timeline timeline) {
+        button.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent e) {
+                snakeView.showFood(food);
+                snakeView.showSnake(snake);
+                snakeView.timeline.play();
+                button.setTranslateX(100000);
+                button.setDisable(true);
+                snakeView.root.getChildren().remove(snakeView.borderpane);
+
+            }
+        });
+    }
+
 }

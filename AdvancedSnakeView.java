@@ -2,10 +2,13 @@ import java.util.ArrayList;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
+import javafx.geometry.Insets;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Button;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -15,14 +18,19 @@ public class AdvancedSnakeView extends Application {
     private final int CELL_SIZE = 15;
     private AdvancedSnakeController simpleSnakeController;
     private GraphicsContext gc;
-    private Timeline timeline;
+    public Timeline timeline;
+    public Button button;
+    public Group root;
+    public BorderPane borderpane;
 
     @Override
     public void start(Stage primaryStage) {
         Group root = new Group();
         Grid grid = new Grid();
         Snake snake = new Snake(grid);
-        Food food = new Food(grid, snake);
+        Food food = new Food(grid);
+        this.button = new Button("LAD OS BEGYNDE!!!!!!!!!!!!!!!!!!!");
+        BorderPane borderpane = new BorderPane();
 
         int sceneSizeX = CELL_SIZE * grid.getGridSizeX();
         int sceneSizeY = CELL_SIZE * grid.getGridSizeY();
@@ -36,7 +44,20 @@ public class AdvancedSnakeView extends Application {
         primaryStage.show();
 
         simpleSnakeController = new AdvancedSnakeController(this);
+        simpleSnakeController.startGame(button, food, snake, timeline);
         simpleSnakeController.setupKeyPressHandler(scene, snake, grid, food);
+
+        borderpane.setPadding(new Insets(sceneSizeY / 2, (sceneSizeX / 2), (sceneSizeY / 2), (sceneSizeX / 2) - 75));
+        borderpane.setCenter(button);
+        root.getChildren().add(borderpane);
+
+        drawGrid(grid);
+
+        borderpane.setPadding(new Insets(sceneSizeY / 2, (sceneSizeX / 2), (sceneSizeY / 2), (sceneSizeX / 2) - 75));
+        borderpane.setCenter(button);
+        root.getChildren().add(borderpane);
+
+        drawGrid(grid);
 
         timeline = new Timeline(new KeyFrame(Duration.seconds(0.8), event -> {
             if (snake.isVictorious(snake, grid) == true) {
@@ -60,9 +81,7 @@ public class AdvancedSnakeView extends Application {
 
             }
         }));
-
         timeline.setCycleCount(Timeline.INDEFINITE);
-        timeline.play();
     }
 
     public void drawGrid(Grid grid) {
