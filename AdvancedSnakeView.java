@@ -47,19 +47,15 @@ public class AdvancedSnakeView extends Application {
         simpleSnakeController.startGame(button, food, snake, timeline);
         simpleSnakeController.setupKeyPressHandler(scene, snake, grid, food);
 
-<<<<<<< HEAD
         borderpane.setPadding(new Insets(sceneSizeY / 2, (sceneSizeX / 2), (sceneSizeY / 2), (sceneSizeX / 2) - 75));
         borderpane.setCenter(button);
         root.getChildren().add(borderpane);
 
         drawGrid(grid);
 
-        timeline = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
-=======
         timeline = new Timeline(new KeyFrame(Duration.seconds(0.3), event -> {
             SnakeBody tail = new SnakeBody(snake.getBody().get(snake.getBody().size() - 1).getXpos(),
                     snake.getBody().get(snake.getBody().size() - 1).getYpos());
->>>>>>> 2e599a574fd3d699eed5750eda9f6e1a431e2337
             drawGrid(grid);
             snake.move(grid);
             showFood(food);
