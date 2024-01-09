@@ -124,9 +124,18 @@ public class Snake {
 
     public void hasEatenApple(Food food, Grid grid, SnakeBody snakeBody) {
 
-        if (food.eatFood(this, food, grid) == true) {
+        if (food.foodEaten(this, food, grid) == true) {
 
             body.add(snakeBody);
+        }
+    }
+
+    public boolean isVictorious(Snake snake, Grid grid) {
+        if (grid.getGridSizeX() * grid.getGridSizeY() == snake.getSize() + 1) {
+            System.out.println("victory");
+            return true;
+        } else {
+            return false;
         }
     }
 }

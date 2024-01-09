@@ -10,16 +10,8 @@ public class AdvancedSnakeController {
 
     public void setupKeyPressHandler(Scene scene, Snake snake, Grid grid, Food food) {
         scene.setOnKeyPressed(e -> {
-
             KeyCode keyCode = e.getCode();
             handleKeyPress(keyCode, snake, grid);
-            snake.selfCollision();
-
-            snake.updateGrid(grid);
-            food.eatFood(snake, food, grid);
-            snakeView.drawGrid(grid);
-            snakeView.showFood(food);
-            snakeView.showSnake(snake);
         });
     }
 

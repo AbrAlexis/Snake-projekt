@@ -12,7 +12,7 @@ import javafx.util.Duration;
 import javafx.scene.text.Font;
 
 public class AdvancedSnakeView extends Application {
-    private final int CELL_SIZE = 50;
+    private final int CELL_SIZE = 15;
     private AdvancedSnakeController simpleSnakeController;
     private GraphicsContext gc;
     private Timeline timeline;
@@ -22,7 +22,7 @@ public class AdvancedSnakeView extends Application {
         Group root = new Group();
         Grid grid = new Grid();
         Snake snake = new Snake(grid);
-        Food food = new Food(grid);
+        Food food = new Food(grid, snake);
 
         int sceneSizeX = CELL_SIZE * grid.getGridSizeX();
         int sceneSizeY = CELL_SIZE * grid.getGridSizeY();
@@ -38,14 +38,19 @@ public class AdvancedSnakeView extends Application {
         simpleSnakeController = new AdvancedSnakeController(this);
         simpleSnakeController.setupKeyPressHandler(scene, snake, grid, food);
 
-        timeline = new Timeline(new KeyFrame(Duration.seconds(0.3), event -> {
+        timeline = new Timeline(new KeyFrame(Duration.seconds(0.8), event -> {
+            if (snake.isVictorious(snake, grid) == true) {
+                timeline.stop();
+            }
             SnakeBody tail = new SnakeBody(snake.getBody().get(snake.getBody().size() - 1).getXpos(),
                     snake.getBody().get(snake.getBody().size() - 1).getYpos());
-            drawGrid(grid);
             snake.move(grid);
-            showFood(food);
-
             snake.hasEatenApple(food, grid, tail);
+            snake.updateGrid(grid);
+            food.foodEaten(snake, food, grid);
+            snake.selfCollision();
+            drawGrid(grid);
+            showFood(food);
             showSnake(snake);
             if (snake.selfCollision()) {
                 timeline.stop();
