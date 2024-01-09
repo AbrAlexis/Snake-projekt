@@ -22,6 +22,7 @@ public class AdvancedSnakeView extends Application {
     public Button button;
     public Group root;
     public BorderPane borderpane;
+    public Scene scene;
 
     @Override
     public void start(Stage primaryStage) {
@@ -35,7 +36,7 @@ public class AdvancedSnakeView extends Application {
         int sceneSizeX = CELL_SIZE * grid.getGridSizeX();
         int sceneSizeY = CELL_SIZE * grid.getGridSizeY();
 
-        Scene scene = new Scene(root, sceneSizeX, sceneSizeY, Color.WHITE);
+        this.scene = new Scene(root, sceneSizeX, sceneSizeY, Color.WHITE);
         final Canvas canvas = new Canvas(sceneSizeX, sceneSizeY);
         gc = canvas.getGraphicsContext2D();
         root.getChildren().add(canvas);
@@ -43,9 +44,10 @@ public class AdvancedSnakeView extends Application {
         primaryStage.setScene(scene);
         primaryStage.show();
 
-        simpleSnakeController = new AdvancedSnakeController(this);
-        simpleSnakeController.startGame(button, food, snake, timeline);
+        simpleSnakeController = new AdvancedSnakeController(this, timeline);
+        simpleSnakeController.startGame(button, food, snake);
         simpleSnakeController.setupKeyPressHandler(scene, snake, grid, food);
+        simpleSnakeController.setUpTimeline(snake, grid, food);
 
         borderpane.setPadding(new Insets(sceneSizeY / 2, (sceneSizeX / 2), (sceneSizeY / 2), (sceneSizeX / 2) - 75));
         borderpane.setCenter(button);
@@ -53,29 +55,6 @@ public class AdvancedSnakeView extends Application {
 
         drawGrid(grid);
 
-        timeline = new Timeline(new KeyFrame(Duration.seconds(0.3), event -> {
-            SnakeBody tail = new SnakeBody(snake.getBody().get(snake.getBody().size() - 1).getXpos(),
-                    snake.getBody().get(snake.getBody().size() - 1).getYpos());
-            snake.move(grid);
-            snake.hasEatenApple(food, grid, tail);
-            snake.updateGrid(grid);
-            food.foodEaten(snake, food, grid);
-            snake.selfCollision();
-            drawGrid(grid);
-            showFood(food);
-            showSnake(snake);
-            if (snake.isVictorious(snake, grid) == true) {
-                timeline.stop();
-            }
-            if (snake.selfCollision()) {
-                timeline.stop();
-                gc.setFill(Color.RED);
-                gc.setFont(new Font("Times New Roman", 30));
-                gc.fillText("Game Over" + "\n Score: " + snake.getSize(), scene.getWidth() / 4, scene.getHeight() / 2);
-
-            }
-        }));
-        timeline.setCycleCount(Timeline.INDEFINITE);
     }
 
     public void drawGrid(Grid grid) {
@@ -105,6 +84,16 @@ public class AdvancedSnakeView extends Application {
         for (int i = 0; i < body.size(); i++) {
             gc.setFill(Color.BLACK);
             gc.fillRect(body.get(i).getXpos() * CELL_SIZE, body.get(i).getYpos() * CELL_SIZE, CELL_SIZE, CELL_SIZE);
+        }
+    }
+
+    public void gameOverScreen(Snake snake, Scene scene) {
+        if (snake.selfCollision()) {
+            simpleSnakeController.getTimeline().stop();
+            gc.setFill(Color.RED);
+            gc.setFont(new Font("Times New Roman", 30));
+            gc.fillText("Game Over" + "\n Score: " + snake.getSize(), scene.getWidth() / 4, scene.getHeight() / 2);
+
         }
     }
 

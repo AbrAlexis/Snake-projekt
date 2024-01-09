@@ -1,5 +1,8 @@
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.util.Duration;
 import javafx.scene.Scene;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -9,9 +12,11 @@ import javafx.scene.control.Button;
 public class AdvancedSnakeController {
     private AdvancedSnakeView snakeView;
     private EventHandler<ActionEvent> eventHandler;
+    private Timeline timeline;
 
-    public AdvancedSnakeController(AdvancedSnakeView snakeView) {
+    public AdvancedSnakeController(AdvancedSnakeView snakeView, Timeline timeline) {
         this.snakeView = snakeView;
+        this.timeline = timeline;
     }
 
     public void setupKeyPressHandler(Scene scene, Snake snake, Grid grid, Food food) {
@@ -19,6 +24,28 @@ public class AdvancedSnakeController {
             KeyCode keyCode = e.getCode();
             handleKeyPress(keyCode, snake, grid);
         });
+    }
+
+    public void setUpTimeline(Snake snake, Grid grid, Food food) {
+        this.timeline = new Timeline(new KeyFrame(Duration.seconds(0.3), event -> {
+
+            SnakeBody tail = new SnakeBody(snake.getBody().get(snake.getBody().size() - 1).getXpos(),
+                    snake.getBody().get(snake.getBody().size() - 1).getYpos());
+            snake.move(grid);
+            snake.hasEatenApple(food, grid, tail);
+            snake.updateGrid(grid);
+            food.foodEaten(snake, food, grid);
+            snake.selfCollision();
+            snakeView.drawGrid(grid);
+            snakeView.showFood(food);
+            snakeView.showSnake(snake);
+            if (snake.isVictorious(snake, grid) == true) {
+
+                this.timeline.stop();
+            }
+            snakeView.gameOverScreen(snake, snakeView.scene);
+        }));
+        timeline.setCycleCount(Timeline.INDEFINITE);
     }
 
     public void handleKeyPress(KeyCode keyCode, Snake snake, Grid grid) {
@@ -35,13 +62,13 @@ public class AdvancedSnakeController {
         }
     }
 
-    public void startGame(Button button, Food food, Snake snake, Timeline timeline) {
+    public void startGame(Button button, Food food, Snake snake) {
         button.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent e) {
                 snakeView.showFood(food);
                 snakeView.showSnake(snake);
-                snakeView.timeline.play();
+                timeline.play();
                 button.setTranslateX(100000);
                 button.setDisable(true);
 
@@ -49,4 +76,7 @@ public class AdvancedSnakeController {
         });
     }
 
+    public Timeline getTimeline() {
+        return timeline;
+    }
 }
