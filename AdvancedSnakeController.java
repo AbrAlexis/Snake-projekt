@@ -13,7 +13,7 @@ public class AdvancedSnakeController {
     private AdvancedSnakeView snakeView;
     private EventHandler<ActionEvent> eventHandler;
     private Timeline timeline;
-    private int counter;
+    private char lastDirection;
 
     public AdvancedSnakeController(AdvancedSnakeView snakeView, Timeline timeline) {
         this.snakeView = snakeView;
@@ -23,7 +23,7 @@ public class AdvancedSnakeController {
     public void setupKeyPressHandler(Scene scene, Snake snake, Grid grid, Food food) {
         scene.setOnKeyPressed(e -> {
             KeyCode keyCode = e.getCode();
-            handleKeyPress(keyCode, snake, grid);
+            handleKeyPress(keyCode, snake, grid, lastDirection);
         });
     }
 
@@ -32,6 +32,7 @@ public class AdvancedSnakeController {
 
             SnakeBody tail = new SnakeBody(snake.getBody().get(snake.getBody().size() - 1).getXpos(),
                     snake.getBody().get(snake.getBody().size() - 1).getYpos());
+            lastDirection = snake.getDirection();
             snake.move(grid);
             snake.hasEatenApple(food, grid, tail);
             snake.updateGrid(grid);
@@ -44,26 +45,21 @@ public class AdvancedSnakeController {
                 this.timeline.stop();
             }
             snakeView.gameOverScreen(snake, snakeView.scene);
-            this.counter = 0;
         }));
         timeline.setCycleCount(Timeline.INDEFINITE);
 
     }
 
-    public void handleKeyPress(KeyCode keyCode, Snake snake, Grid grid) {
-        char direction = snake.getDirection();
+    public void handleKeyPress(KeyCode keyCode, Snake snake, Grid grid, char lastDirection) {
 
-        if (counter < 1) {
-            if (keyCode == KeyCode.UP && direction != 'D') {
-                snake.setDirection('U');
-            } else if (keyCode == KeyCode.DOWN && direction != 'U') {
-                snake.setDirection('D');
-            } else if (keyCode == KeyCode.LEFT && direction != 'R') {
-                snake.setDirection('L');
-            } else if (keyCode == KeyCode.RIGHT && direction != 'L') {
-                snake.setDirection('R');
-            }
-            counter++;
+        if (keyCode == KeyCode.UP && lastDirection != 'D') {
+            snake.setDirection('U');
+        } else if (keyCode == KeyCode.DOWN && lastDirection != 'U') {
+            snake.setDirection('D');
+        } else if (keyCode == KeyCode.LEFT && lastDirection != 'R') {
+            snake.setDirection('L');
+        } else if (keyCode == KeyCode.RIGHT && lastDirection != 'L') {
+            snake.setDirection('R');
         }
     }
 
