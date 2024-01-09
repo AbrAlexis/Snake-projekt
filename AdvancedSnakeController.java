@@ -13,6 +13,7 @@ public class AdvancedSnakeController {
     private AdvancedSnakeView snakeView;
     private EventHandler<ActionEvent> eventHandler;
     private Timeline timeline;
+    private int counter;
 
     public AdvancedSnakeController(AdvancedSnakeView snakeView, Timeline timeline) {
         this.snakeView = snakeView;
@@ -27,7 +28,7 @@ public class AdvancedSnakeController {
     }
 
     public void setUpTimeline(Snake snake, Grid grid, Food food) {
-        this.timeline = new Timeline(new KeyFrame(Duration.seconds(0.3), event -> {
+        this.timeline = new Timeline(new KeyFrame(Duration.seconds(0.1), event -> {
 
             SnakeBody tail = new SnakeBody(snake.getBody().get(snake.getBody().size() - 1).getXpos(),
                     snake.getBody().get(snake.getBody().size() - 1).getYpos());
@@ -44,21 +45,26 @@ public class AdvancedSnakeController {
                 this.timeline.stop();
             }
             snakeView.gameOverScreen(snake, snakeView.scene);
+            this.counter = 0;
         }));
         timeline.setCycleCount(Timeline.INDEFINITE);
+
     }
 
     public void handleKeyPress(KeyCode keyCode, Snake snake, Grid grid) {
         char direction = snake.getDirection();
 
-        if (keyCode == KeyCode.UP && direction != 'D') {
-            snake.setDirection('U');
-        } else if (keyCode == KeyCode.DOWN && direction != 'U') {
-            snake.setDirection('D');
-        } else if (keyCode == KeyCode.LEFT && direction != 'R') {
-            snake.setDirection('L');
-        } else if (keyCode == KeyCode.RIGHT && direction != 'L') {
-            snake.setDirection('R');
+        if (counter < 1) {
+            if (keyCode == KeyCode.UP && direction != 'D') {
+                snake.setDirection('U');
+            } else if (keyCode == KeyCode.DOWN && direction != 'U') {
+                snake.setDirection('D');
+            } else if (keyCode == KeyCode.LEFT && direction != 'R') {
+                snake.setDirection('L');
+            } else if (keyCode == KeyCode.RIGHT && direction != 'L') {
+                snake.setDirection('R');
+            }
+            counter++;
         }
     }
 
