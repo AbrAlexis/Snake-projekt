@@ -28,7 +28,7 @@ public class AdvancedSnakeView extends Application {
         Group root = new Group();
         Grid grid = new Grid();
         Snake snake = new Snake(grid);
-        Food food = new Food(grid);
+        Food food = new Food(grid,snake);
         this.button = new Button("LAD OS BEGYNDE!!!!!!!!!!!!!!!!!!!");
         BorderPane borderpane = new BorderPane();
 
