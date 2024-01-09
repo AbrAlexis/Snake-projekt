@@ -41,7 +41,6 @@ public class AdvancedSnakeController {
             snakeView.showFood(food);
             snakeView.showSnake(snake);
             if (snake.isVictorious(snake, grid) == true) {
-
                 this.timeline.stop();
             }
             snakeView.gameOverScreen(snake, snakeView.scene);
