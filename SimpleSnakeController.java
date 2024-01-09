@@ -6,11 +6,19 @@ import javafx.scene.control.Button;
 
 public class SimpleSnakeController {
     private SimpleSnakeView snakeView;
-    private EventHandler<ActionEvent> eventHandler;
+    private boolean gameOverFlag;
 
     public SimpleSnakeController(SimpleSnakeView snakeView) {
         this.snakeView = snakeView;
+        this.gameOverFlag = false;
+    }
 
+    public boolean getGameOverFlag() {
+        return gameOverFlag;
+    }
+
+    public void setGameOverFlag(Boolean value) {
+        gameOverFlag = value;
     }
 
     public void setupKeyPressHandler(Scene scene, Snake snake, Grid grid, Food food) {
@@ -23,11 +31,12 @@ public class SimpleSnakeController {
             snake.hasEatenApple(food, grid, tail);
             snake.updateGrid(grid);
             food.eatFood(snake, food, grid);
-            snake.selfCollision();
+            snake.selfCollision(this);
             snakeView.drawGrid(grid);
             snakeView.showFood(food);
             snakeView.showSnake(snake);
-            snakeView.gameOver(snake, scene);
+            snakeView.gameOverScreen(snake, scene);
+            snakeView.resetGameButton(snake, food);
         });
     }
 
@@ -60,5 +69,30 @@ public class SimpleSnakeController {
 
             }
         });
+    }
+
+    public void resetGame(Grid grid, Snake snake, Food food) {
+        int size = snake.getSize();
+        for (int i = size - 1; i > 0; i--) {
+            // deletes all but one of snakes bodypart
+            snake.getBody().remove(i);
+        }
+        // Moves the head back to the middle
+        int gridMiddleX = (int) Math.floor(Double.valueOf(grid.getGridSizeX() / 2));
+        int gridMiddleY = (int) Math.floor(Double.valueOf(grid.getGridSizeY() / 2));
+        snake.setHeadX(gridMiddleX);
+        snake.setheadY(gridMiddleY);
+
+        snake.getBody().get(0).setXpos(gridMiddleX);
+        snake.getBody().get(0).setYpos(gridMiddleY + 1);
+
+        snake.setDirection('U');
+
+        gameOverFlag = false; // Set the flag to true to avoid multiple calls
+
+        snakeView.drawGrid(grid);
+        snakeView.showSnake(snake);
+        food.moveFood(grid);
+        snakeView.showFood(food);
     }
 }

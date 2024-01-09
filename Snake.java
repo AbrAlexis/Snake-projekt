@@ -36,6 +36,14 @@ public class Snake {
         return headY;
     }
 
+    public void setHeadX(int x) {
+        headX = x;
+    }
+
+    public void setheadY(int y) {
+        headY = y;
+    }
+
     public int getSize() {
         return this.body.size();
     }
@@ -111,10 +119,11 @@ public class Snake {
         }
     }
 
-    public boolean selfCollision() {
+    public boolean selfCollision(SimpleSnakeController simpleSnakeController) {
         for (int i = 0; i < body.size(); i++) {
             if (headX == body.get(i).getXpos() && headY == body.get(i).getYpos()) {
                 System.out.println("collision");
+                simpleSnakeController.setGameOverFlag(true);
                 return true;
             }
         }
@@ -124,8 +133,8 @@ public class Snake {
     public void hasEatenApple(Food food, Grid grid, SnakeBody snakeBody) {
 
         if (food.eatFood(this, food, grid) == true) {
-
             body.add(snakeBody);
         }
     }
+
 }

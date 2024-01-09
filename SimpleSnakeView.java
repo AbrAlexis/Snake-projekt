@@ -17,21 +17,20 @@ public class SimpleSnakeView extends Application {
     private final int CELL_SIZE = 15;
     private SimpleSnakeController simpleSnakeController;
     private GraphicsContext gc;
-    private boolean gameOverFlag = false;
-    Grid grid;
+    private Grid grid;
     public Button button;
     public Group root;
     public BorderPane borderpane;
 
     @Override
     public void start(Stage primaryStage) {
-        grid = new Grid();
+        this.grid = new Grid();
 
         Group root = new Group();
         Snake snake = new Snake(grid);
         Food food = new Food(grid);
         this.button = new Button("LAD OS BEGYNDE!!!!!!!!!!!!!!!!!!!");
-        BorderPane borderpane = new BorderPane();
+        this.borderpane = new BorderPane();
 
         int sceneSizeX = CELL_SIZE * grid.getGridSizeX();
         int sceneSizeY = CELL_SIZE * grid.getGridSizeY();
@@ -50,7 +49,8 @@ public class SimpleSnakeView extends Application {
         simpleSnakeController.startGame(button, food, snake);
         simpleSnakeController.setupKeyPressHandler(scene, snake, grid, food);
 
-        borderpane.setPadding(new Insets(sceneSizeY / 2, (sceneSizeX / 2), (sceneSizeY / 2), (sceneSizeX / 2) - 75));
+        borderpane.setPadding(new Insets(sceneSizeY / 2, (sceneSizeX / 2),
+                (sceneSizeY / 2), (sceneSizeX / 2) - 75));
         borderpane.setCenter(button);
         root.getChildren().add(borderpane);
         drawGrid(grid);
@@ -69,18 +69,45 @@ public class SimpleSnakeView extends Application {
         }
     }
 
+    public void resetGameButton(Snake snake, Food food) {
+        // Create a new button
+        if (simpleSnakeController.getGameOverFlag()) {
+            Button resetButton = new Button("Reset Game");
+
+            // Set the button's action
+            resetButton.setOnAction(e -> {
+                // Reset the game here
+                simpleSnakeController.resetGame(grid, snake, food);
+                resetButton.setDisable(true);
+                resetButton.setVisible(false); // Hide the button
+
+            });
+
+            int sceneSizeX = CELL_SIZE * grid.getGridSizeX();
+            int sceneSizeY = CELL_SIZE * grid.getGridSizeY();
+            // Add the button to the center of the borderpane
+
+            borderpane.setTop(resetButton);
+
+            resetButton.setTranslateX((sceneSizeX / 2 - (2.5 * CELL_SIZE)));
+            resetButton.setTranslateY(-(sceneSizeY / 2));
+            // root.getChildren().add(borderpane);
+        }
+    }
+
     // Metode der tjekker selfcollision og derefter printer "Game Over".
-    public void gameOver(Snake snake, Scene scene) {
+    public void gameOverScreen(Snake snake, Scene scene) {
         int size;
         int minGridSize = Math.min(grid.getGridSizeX(), grid.getGridSizeY());
         size = Math.min(Math.max(5, minGridSize * CELL_SIZE / 6), 75);
-        if (snake.selfCollision() && !gameOverFlag) {
-            gameOverFlag = true; // Set the flag to true to avoid multiple calls
-            gc.setFill(Color.RED);
+        if (simpleSnakeController.getGameOverFlag() == true) {
+
+            gc.setFill(Color.BLUE);
             gc.setFont(new Font("Times New Roman", size));
-            gc.fillText("Game Over" + "\n Score: " + snake.getBody().size(), scene.getWidth() / 8,
+            gc.fillText("Game Over" + "\n Score: " + snake.getBody().size(),
+                    scene.getWidth() / 8,
                     scene.getHeight() / 2);
-            gameOverFlag = false;
+
         }
     }
 
