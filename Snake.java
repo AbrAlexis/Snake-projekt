@@ -1,6 +1,10 @@
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 
+import javax.print.attribute.standard.MediaSize.Other;
+
+import javafx.scene.paint.Color;
+
 import javafx.animation.Timeline;
 
 public class Snake {
@@ -10,9 +14,10 @@ public class Snake {
     private ArrayList<SnakeBody> body;
     private int oldHeadX = headX;
     private int oldHeadY = headY;
+    private Color color;
 
-    public Snake(Grid grid) { // Creates the Gamestart Snake
-        int gridMiddleX = (int) Math.floor(Double.valueOf(grid.getGridSizeX() / 2));
+    public Snake(Grid grid, Color color) { // Creates the Gamestart Snake
+        int gridMiddleX = (int) Math.floor(Double.valueOf(grid.getGridSizeX() / 2) - 1);
         int gridMiddleY = (int) Math.floor(Double.valueOf(grid.getGridSizeY() / 2));
         this.headX = gridMiddleX;
         this.headY = gridMiddleY;
@@ -22,27 +27,23 @@ public class Snake {
 
         this.oldHeadX = gridMiddleX;
         this.oldHeadY = gridMiddleY;
+
+        this.color = color;
     }
 
-    public Snake(Grid grid, char direction) { // Creates Snake at random location (except the borders of the grid)
-        int randXPos = ThreadLocalRandom.current().nextInt(1, grid.getGridSizeX() - 1);
-        int randYPos = ThreadLocalRandom.current().nextInt(1, grid.getGridSizeY() - 1);
-        this.headX = randXPos;
-        this.headY = randYPos;
-        this.direction = direction;
+    public Snake(Grid grid, int x, Color color) { // Creates Snake at random location (except the borders of the grid)
+        int gridMiddleX = (int) Math.floor(Double.valueOf(grid.getGridSizeX() / 2) + x);
+        int gridMiddleY = (int) Math.floor(Double.valueOf(grid.getGridSizeY() / 2));
+        this.headX = gridMiddleX;
+        this.headY = gridMiddleY;
+        this.direction = 'U';
         this.body = new ArrayList<SnakeBody>(1);
-        if (direction == 'L') {
-            body.add(new SnakeBody(randXPos + 1, randYPos));
-        } else if (direction == 'R') {
-            body.add(new SnakeBody(randXPos - 1, randYPos));
-        } else if (direction == 'D') {
-            body.add(new SnakeBody(randXPos, randYPos - 1));
-        } else {
-            body.add(new SnakeBody(randXPos, randYPos + 1));
-        }
+        body.add(new SnakeBody(gridMiddleX, gridMiddleY + 1));
 
-        this.oldHeadX = randXPos;
-        this.oldHeadY = randYPos;
+        this.oldHeadX = gridMiddleX;
+        this.oldHeadY = gridMiddleY;
+
+        this.color = color;
     }
 
     // Metoder for snakkens krop og position.
@@ -73,6 +74,10 @@ public class Snake {
 
     public void setDirection(char newDirection) {
         direction = newDirection;
+    }
+
+    public Color getColor() {
+        return color;
     }
 
     // Metode til at opdatere slangebevægelse baseret på retningen.
@@ -136,12 +141,24 @@ public class Snake {
             }
         }
         return false;
+    }
 
+    public boolean otherCollision(Snake other) {
+
+        if (headX == other.getHeadX() && headY == other.getHeadY()) {
+            return true;
+        }
+        for (int i = 0; i <= other.getSize() - 1; i++) {
+            if (headX == other.getBody().get(i).getXpos() && headY == other.getBody().get(i).getYpos()) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public void hasEatenApple(Food food, Grid grid, SnakeBody snakeBody) {
 
-        if (food.foodEaten(this, food, grid) == true) {
+        if (food.foodEaten(this, grid) == true) {
 
             body.add(snakeBody);
         }

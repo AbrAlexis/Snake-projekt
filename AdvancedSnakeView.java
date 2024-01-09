@@ -18,6 +18,8 @@ public class AdvancedSnakeView extends Application {
     private final int CELL_SIZE = 15;
     private AdvancedSnakeController simpleSnakeController;
     private GraphicsContext gc;
+    private Snake snake;
+    private Snake worm;
     public Timeline timeline;
     public Button button;
     public Group root;
@@ -28,8 +30,18 @@ public class AdvancedSnakeView extends Application {
     public void start(Stage primaryStage) {
         Group root = new Group();
         Grid grid = new Grid();
-        Snake snake = new Snake(grid);
-        Food food = new Food(grid, snake);
+
+        simpleSnakeController = new AdvancedSnakeController(this, timeline);
+
+        if (simpleSnakeController.getMultiplayer()) {
+            snake = new Snake(grid, +1, Color.BLUE);
+            worm = new Snake(grid, -2, Color.GREY);
+        } else {
+            snake = new Snake(grid, Color.BEIGE);
+        }
+
+        Food food = new Food(grid);
+
         this.button = new Button("LAD OS BEGYNDE!!!!!!!!!!!!!!!!!!!");
         BorderPane borderpane = new BorderPane();
 
@@ -44,10 +56,19 @@ public class AdvancedSnakeView extends Application {
         primaryStage.setScene(scene);
         primaryStage.show();
 
-        simpleSnakeController = new AdvancedSnakeController(this, timeline);
-        simpleSnakeController.startGame(button, food, snake);
-        simpleSnakeController.setupKeyPressHandler(scene, snake, grid, food);
-        simpleSnakeController.setUpTimeline(snake, grid, food);
+        if (simpleSnakeController.getMultiplayer()) {
+            simpleSnakeController.startGame2p(button, food, snake, worm);
+        } else {
+            simpleSnakeController.startGame(button, food, snake);
+        }
+
+        simpleSnakeController.setupKeyPressHandler(scene, snake, worm, grid, food);
+
+        if (simpleSnakeController.getMultiplayer()) {
+            simpleSnakeController.setUpTimeline2p(snake, worm, grid, food);
+        } else {
+            simpleSnakeController.setUpTimeline(snake, grid, food);
+        }
 
         borderpane.setPadding(new Insets(sceneSizeY / 2, (sceneSizeX / 2), (sceneSizeY / 2), (sceneSizeX / 2) - 75));
         borderpane.setCenter(button);
@@ -75,9 +96,9 @@ public class AdvancedSnakeView extends Application {
         gc.fillRect(food.getFoodX() * CELL_SIZE, food.getFoodY() * CELL_SIZE, CELL_SIZE, CELL_SIZE);
     }
 
-    public void showSnake(Snake snake) {
+    public void showSnake(Snake snake, Color color) {
         // Farve på hoved
-        gc.setFill(Color.BLUE);
+        gc.setFill(color);
         gc.fillRect(snake.getHeadX() * CELL_SIZE, snake.getHeadY() * CELL_SIZE, CELL_SIZE, CELL_SIZE);
         // Farve på krop
         ArrayList<SnakeBody> body = snake.getBody();
@@ -93,6 +114,17 @@ public class AdvancedSnakeView extends Application {
             gc.setFill(Color.RED);
             gc.setFont(new Font("Times New Roman", 30));
             gc.fillText("Game Over" + "\n Score: " + snake.getSize(), scene.getWidth() / 4, scene.getHeight() / 2);
+
+        }
+    }
+
+    public void gameOverScreen2p() {
+        if (snake.selfCollision() || worm.selfCollision() || snake.otherCollision(worm) || worm.otherCollision(snake)) {
+            System.out.println("collision");
+            simpleSnakeController.getTimeline().stop();
+            gc.setFill(Color.RED);
+            gc.setFont(new Font("Times New Roman", 30));
+            gc.fillText("Game Over", scene.getWidth() / 4, scene.getHeight() / 2);
 
         }
     }
