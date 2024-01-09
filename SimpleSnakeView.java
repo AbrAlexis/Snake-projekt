@@ -28,7 +28,7 @@ public class SimpleSnakeView extends Application {
 
         Group root = new Group();
         Snake snake = new Snake(grid);
-        Food food = new Food(grid,snake);
+        Food food = new Food(grid, snake);
         this.button = new Button("LAD OS BEGYNDE!!!!!!!!!!!!!!!!!!!");
         this.borderpane = new BorderPane();
 
@@ -89,7 +89,7 @@ public class SimpleSnakeView extends Application {
 
             borderpane.setTop(resetButton);
 
-            resetButton.setTranslateX((sceneSizeX / 2 - (2.5 * CELL_SIZE)));
+            resetButton.setTranslateX(((sceneSizeX / 4)));
             resetButton.setTranslateY(-(sceneSizeY / 2));
             // root.getChildren().add(borderpane);
         }
