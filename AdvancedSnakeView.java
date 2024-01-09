@@ -28,7 +28,7 @@ public class AdvancedSnakeView extends Application {
         Group root = new Group();
         Grid grid = new Grid();
         Snake snake = new Snake(grid);
-        Food food = new Food(grid,snake);
+        Food food = new Food(grid, snake);
         this.button = new Button("LAD OS BEGYNDE!!!!!!!!!!!!!!!!!!!");
         BorderPane borderpane = new BorderPane();
 
@@ -53,13 +53,7 @@ public class AdvancedSnakeView extends Application {
 
         drawGrid(grid);
 
-        borderpane.setPadding(new Insets(sceneSizeY / 2, (sceneSizeX / 2), (sceneSizeY / 2), (sceneSizeX / 2) - 75));
-        borderpane.setCenter(button);
-        root.getChildren().add(borderpane);
-
-        drawGrid(grid);
-
-        timeline = new Timeline(new KeyFrame(Duration.seconds(0.8), event -> {
+        timeline = new Timeline(new KeyFrame(Duration.seconds(0.5), event -> {
             if (snake.isVictorious(snake, grid) == true) {
                 timeline.stop();
             }
