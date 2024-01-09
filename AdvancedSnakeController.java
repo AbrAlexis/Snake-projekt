@@ -10,12 +10,11 @@ public class AdvancedSnakeController {
 
     public void setupKeyPressHandler(Scene scene, Snake snake, Grid grid, Food food) {
         scene.setOnKeyPressed(e -> {
-            SnakeBody tail = new SnakeBody(snake.getBody().get(snake.getBody().size() - 1).getXpos(),
-                    snake.getBody().get(snake.getBody().size() - 1).getYpos());
+
             KeyCode keyCode = e.getCode();
             handleKeyPress(keyCode, snake, grid);
             snake.selfCollision();
-            snake.hasEatenApple(food, grid, tail);
+
             snake.updateGrid(grid);
             food.eatFood(snake, food, grid);
             snakeView.drawGrid(grid);

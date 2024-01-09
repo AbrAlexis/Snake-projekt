@@ -38,12 +38,15 @@ public class AdvancedSnakeView extends Application {
         simpleSnakeController = new AdvancedSnakeController(this);
         simpleSnakeController.setupKeyPressHandler(scene, snake, grid, food);
 
-        timeline = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
+        timeline = new Timeline(new KeyFrame(Duration.seconds(0.3), event -> {
+            SnakeBody tail = new SnakeBody(snake.getBody().get(snake.getBody().size() - 1).getXpos(),
+                    snake.getBody().get(snake.getBody().size() - 1).getYpos());
             drawGrid(grid);
             snake.move(grid);
             showFood(food);
-            showSnake(snake);
 
+            snake.hasEatenApple(food, grid, tail);
+            showSnake(snake);
             if (snake.selfCollision()) {
                 timeline.stop();
                 gc.setFill(Color.RED);
