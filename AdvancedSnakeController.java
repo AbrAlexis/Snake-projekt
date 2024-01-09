@@ -44,7 +44,6 @@ public class AdvancedSnakeController {
                 snakeView.timeline.play();
                 button.setTranslateX(100000);
                 button.setDisable(true);
-                snakeView.root.getChildren().remove(snakeView.borderpane);
 
             }
         });
