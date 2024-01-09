@@ -53,10 +53,7 @@ public class AdvancedSnakeView extends Application {
 
         drawGrid(grid);
 
-        timeline = new Timeline(new KeyFrame(Duration.seconds(0.5), event -> {
-            if (snake.isVictorious(snake, grid) == true) {
-                timeline.stop();
-            }
+        timeline = new Timeline(new KeyFrame(Duration.seconds(0.3), event -> {
             SnakeBody tail = new SnakeBody(snake.getBody().get(snake.getBody().size() - 1).getXpos(),
                     snake.getBody().get(snake.getBody().size() - 1).getYpos());
             snake.move(grid);
@@ -67,6 +64,9 @@ public class AdvancedSnakeView extends Application {
             drawGrid(grid);
             showFood(food);
             showSnake(snake);
+            if (snake.isVictorious(snake, grid) == true) {
+                timeline.stop();
+            }
             if (snake.selfCollision()) {
                 timeline.stop();
                 gc.setFill(Color.RED);
