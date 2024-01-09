@@ -64,7 +64,7 @@ public class AdvancedSnakeView extends Application {
             drawGrid(grid);
             showFood(food);
             showSnake(snake);
-            if (snake.isVictorious(snake, grid) == true) {
+            if (snake.isVictorious(snake, grid)) {
                 timeline.stop();
             }
             if (snake.selfCollision()) {

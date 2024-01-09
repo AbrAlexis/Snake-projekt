@@ -1,4 +1,6 @@
 import java.util.*;
+import java.util.concurrent.ThreadLocalRandom;
+
 import javafx.animation.Timeline;
 
 public class Snake {
@@ -14,7 +16,7 @@ public class Snake {
         int gridMiddleY = (int) Math.floor(Double.valueOf(grid.getGridSizeY() / 2));
         this.headX = gridMiddleX;
         this.headY = gridMiddleY;
-        this.direction = 'L';
+        this.direction = 'U';
         this.body = new ArrayList<SnakeBody>(1);
         body.add(new SnakeBody(gridMiddleX, gridMiddleY + 1));
 
@@ -22,10 +24,25 @@ public class Snake {
         this.oldHeadY = gridMiddleY;
     }
 
-    public Snake(int headX, int headY, ArrayList<SnakeBody> body) { // Creates Snake
-        this.headX = headX;
-        this.headY = headY;
-        this.body = body;
+    public Snake(Grid grid, char direction) { // Creates Snake at random location (except the borders of the grid)
+        int randXPos = ThreadLocalRandom.current().nextInt(1, grid.getGridSizeX() - 1);
+        int randYPos = ThreadLocalRandom.current().nextInt(1, grid.getGridSizeY() - 1);
+        this.headX = randXPos;
+        this.headY = randYPos;
+        this.direction = direction;
+        this.body = new ArrayList<SnakeBody>(1);
+        if (direction == 'L') {
+            body.add(new SnakeBody(randXPos + 1, randYPos));
+        } else if (direction == 'R') {
+            body.add(new SnakeBody(randXPos - 1, randYPos));
+        } else if (direction == 'D') {
+            body.add(new SnakeBody(randXPos, randYPos - 1));
+        } else {
+            body.add(new SnakeBody(randXPos, randYPos + 1));
+        }
+
+        this.oldHeadX = randXPos;
+        this.oldHeadY = randYPos;
     }
 
     // Metoder for snakkens krop og position.
