@@ -1,10 +1,10 @@
 import javafx.scene.input.KeyCode;
 import javafx.scene.Scene;
 
-public class SimpleSnakeController {
-    private SimpleSnakeView snakeView;
+public class AdvancedSnakeController {
+    private AdvancedSnakeView snakeView;
 
-    public SimpleSnakeController(SimpleSnakeView snakeView) {
+    public AdvancedSnakeController(AdvancedSnakeView snakeView) {
         this.snakeView = snakeView;
     }
 

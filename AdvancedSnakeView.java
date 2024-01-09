@@ -11,9 +11,9 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import javafx.scene.text.Font;
 
-public class SimpleSnakeView extends Application {
+public class AdvancedSnakeView extends Application {
     private final int CELL_SIZE = 50;
-    private SimpleSnakeController simpleSnakeController;
+    private AdvancedSnakeController simpleSnakeController;
     private GraphicsContext gc;
     private Timeline timeline;
 
@@ -35,7 +35,7 @@ public class SimpleSnakeView extends Application {
         primaryStage.setScene(scene);
         primaryStage.show();
 
-        simpleSnakeController = new SimpleSnakeController(this);
+        simpleSnakeController = new AdvancedSnakeController(this);
         simpleSnakeController.setupKeyPressHandler(scene, snake, grid, food);
 
         timeline = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
