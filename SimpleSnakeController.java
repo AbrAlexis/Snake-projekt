@@ -92,7 +92,7 @@ public class SimpleSnakeController {
 
         snakeView.drawGrid(grid);
         snakeView.showSnake(snake);
-        food.moveFood(grid);
+        food.moveFood(grid,snake);
         snakeView.showFood(food);
     }
 }
