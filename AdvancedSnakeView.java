@@ -26,6 +26,7 @@ public class AdvancedSnakeView extends Application {
     private Group root;
     public Scene scene;
     private Grid grid;
+    private Stage primaryStage;
 
     @Override
     public void start(Stage primaryStage) {
@@ -43,7 +44,7 @@ public class AdvancedSnakeView extends Application {
         }
 
         Food food = new Food(grid);
-        
+
         Canvas canvas = new Canvas(scene.getWidth(), scene.getHeight());
         gc = canvas.getGraphicsContext2D();
         root.getChildren().add(canvas);
@@ -72,7 +73,7 @@ public class AdvancedSnakeView extends Application {
         if (simpleSnakeController.getMultiplayer()) {
             simpleSnakeController.setUpTimeline2p(snake, worm, grid, food);
         } else {
-            simpleSnakeController.setUpTimeline(snake, grid, food);
+            simpleSnakeController.setUpTimeline(snake, grid, food, scene);
         }
     }
 
@@ -111,7 +112,8 @@ public class AdvancedSnakeView extends Application {
             simpleSnakeController.getTimeline().stop();
             gc.setFill(Color.RED);
             gc.setFont(new Font("Times New Roman", 30));
-            gc.fillText("Game Over" + "\n Score: " + snake.getSize(), scene.getWidth() / 4, scene.getHeight() / 2);
+            gc.fillText("Game Over" + "\nScore: " + snake.getSize(), (grid.getGridSizeX() * CELL_SIZE) / 5,
+                    scene.getHeight() / 2);
 
         }
     }
@@ -166,6 +168,24 @@ public class AdvancedSnakeView extends Application {
                 (scene.getHeight() * bottomMultiplier), (scene.getWidth() * leftMultiplier) - (buttonWidth * 0.5)));
         root.getChildren().add(borderPane);
         return borderPane;
+    }
+
+    public void resetGameButton(Snake snake, Food food, Scene scene) {
+        // Create a new button
+        if (snake.selfCollision()) {
+            Button resetButton = createButton("Reset Game");
+            BorderPane borderpane = createBorderPaneInLocation("TOP", "");
+            borderpane.setCenter(resetButton);
+
+            // Set the button's action
+            resetButton.setOnAction(e -> {
+                // Reset the game here
+                // simpleSnakeController.resetGame();
+                resetButton.setDisable(true);
+                resetButton.setVisible(false); // Hide the button
+
+            });
+        }
     }
 
     public static void main(String[] args) {

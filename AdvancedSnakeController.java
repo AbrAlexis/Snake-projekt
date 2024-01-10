@@ -3,6 +3,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -11,7 +12,6 @@ import java.util.Dictionary;
 import java.util.Hashtable;
 import java.util.Map;
 import java.util.Scanner;
-
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.*;
@@ -44,7 +44,7 @@ public class AdvancedSnakeController {
         });
     }
 
-    public void setUpTimeline(Snake snake, Grid grid, Food food) {
+    public void setUpTimeline(Snake snake, Grid grid, Food food, Scene scene) {
         this.timeline = new Timeline(new KeyFrame(Duration.seconds(0.1), event -> {
 
             SnakeBody tail = new SnakeBody(snake.getBody().get(snake.getBody().size() - 1).getXpos(),
@@ -63,6 +63,7 @@ public class AdvancedSnakeController {
                 this.timeline.stop();
             }
             snakeView.gameOverScreen(snake, snakeView.scene);
+            snakeView.resetGameButton(snake, food, scene);
         }));
         timeline.setCycleCount(Timeline.INDEFINITE);
     }
@@ -229,6 +230,11 @@ public class AdvancedSnakeController {
             return false;
         }
     }
+
+    // public void resetGame(Stage primaryStage, AdvancedSnakeView snakeview) {
+    // Stage newStage = new Stage();
+    // snakeview.start(newStage);
+    // }
 
     public Timeline getTimeline() {
         return timeline;
