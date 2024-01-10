@@ -12,6 +12,8 @@ public class Snake {
     private int headY;
     private char direction;
     private ArrayList<SnakeBody> body;
+    private ArrayList<Character> movementBuffer;
+    private boolean hasMadeMove;
     private int oldHeadX = headX;
     private int oldHeadY = headY;
     private Color color;
@@ -29,6 +31,9 @@ public class Snake {
         this.oldHeadY = gridMiddleY;
 
         this.color = color;
+
+        this.movementBuffer = new ArrayList<Character>(0);
+
     }
 
     public Snake(Grid grid, int x, Color color) { // Creates Snake at random location (except the borders of the grid)
@@ -44,6 +49,8 @@ public class Snake {
         this.oldHeadY = gridMiddleY;
 
         this.color = color;
+
+        this.movementBuffer = new ArrayList<Character>(0);
     }
 
     // Metoder for snakkens krop og position.
@@ -120,6 +127,7 @@ public class Snake {
             firstBodyPart.setXpos(oldHeadX);
             firstBodyPart.setYpos(oldHeadY);
         }
+        // hasMadeMove = true;
     }
 
     public void updateGrid(Grid grid) {
@@ -171,5 +179,28 @@ public class Snake {
         } else {
             return false;
         }
+    }
+
+    public void setToBufferDirection() {
+        if (movementBuffer.size() > 0) {
+            for (int i = 0; i < movementBuffer.size(); i++) {
+                System.out.print(movementBuffer.get(i) + " ");
+            }
+            System.out.println();
+            direction = movementBuffer.get(0);
+            movementBuffer.remove(0);
+        }
+    }
+
+    public ArrayList<Character> getBuffer() {
+        return movementBuffer;
+    }
+
+    public boolean getHasMadeMove() {
+        return hasMadeMove;
+    }
+
+    public void setHasMadeMove(boolean bool) {
+        hasMadeMove = bool;
     }
 }

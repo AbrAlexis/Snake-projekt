@@ -1,3 +1,4 @@
+import java.util.HashMap;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
@@ -6,6 +7,9 @@ import javafx.util.Duration;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 
+import java.util.Dictionary;
+import java.util.Hashtable;
+import java.util.Map;
 import java.util.Scanner;
 
 import javafx.animation.KeyFrame;
@@ -58,7 +62,8 @@ public class AdvancedSnakeController {
     }
 
     public void setUpTimeline2p(Snake snake, Snake worm, Grid grid, Food food) {
-        this.timeline = new Timeline(new KeyFrame(Duration.seconds(0.3), event -> {
+
+        this.timeline = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
 
             SnakeBody snakeTail = new SnakeBody(snake.getBody().get(snake.getBody().size() - 1).getXpos(),
                     snake.getBody().get(snake.getBody().size() - 1).getYpos());
@@ -67,6 +72,9 @@ public class AdvancedSnakeController {
             SnakeBody wormTail = new SnakeBody(worm.getBody().get(worm.getBody().size() - 1).getXpos(),
                     worm.getBody().get(worm.getBody().size() - 1).getYpos());
             this.wormLastDirection = worm.getDirection();
+
+            snake.setToBufferDirection();
+            worm.setToBufferDirection();
 
             snake.move(grid);
             worm.move(grid);
@@ -112,14 +120,35 @@ public class AdvancedSnakeController {
     }
 
     public void handleKeyPressWorm(KeyCode keyCode, Snake snake, Grid grid) {
-        if (keyCode == KeyCode.W && wormLastDirection != 'D') {
-            snake.setDirection('U');
-        } else if (keyCode == KeyCode.S && wormLastDirection != 'U') {
-            snake.setDirection('D');
-        } else if (keyCode == KeyCode.A && wormLastDirection != 'R') {
-            snake.setDirection('L');
-        } else if (keyCode == KeyCode.D && wormLastDirection != 'L') {
-            snake.setDirection('R');
+        Map<KeyCode, Character> keyCodeDict = new HashMap<>();
+        // Add key-value pairs to the dictionary
+        keyCodeDict.put(KeyCode.W, 'U');
+        keyCodeDict.put(KeyCode.S, 'D');
+        keyCodeDict.put(KeyCode.A, 'L');
+        keyCodeDict.put(KeyCode.D, 'R');
+
+        Map<KeyCode, Character> reverseDirecDict = new HashMap<>();
+        // Add key-value pairs to the dictionary
+        reverseDirecDict.put(KeyCode.W, 'D');
+        reverseDirecDict.put(KeyCode.S, 'U');
+        reverseDirecDict.put(KeyCode.A, 'R');
+        reverseDirecDict.put(KeyCode.D, 'L');
+
+        Map<Character, Character> charReverseDirecDict = new HashMap<>();
+        // Add key-value pairs to the dictionary
+
+        int lastBufferDirectionIndex = snake.getBuffer().size() - 1;
+
+        if (keyCodeDict.containsKey(keyCode)) {
+            if (snake.getBuffer().size() == 0) {
+                if (wormLastDirection != reverseDirecDict.get(keyCode)) {
+                    snake.setDirection(keyCodeDict.get(keyCode));
+                    snake.getBuffer().add(keyCodeDict.get(keyCode));
+                }
+            } else if (snake.getBuffer().get(lastBufferDirectionIndex) != reverseDirecDict.get(keyCode)) {
+                snake.getBuffer().add(keyCodeDict.get(keyCode));
+            }
+
         }
     }
 
