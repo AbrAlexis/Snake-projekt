@@ -121,7 +121,6 @@ public class AdvancedSnakeController {
 
             snakeView.gameOverScreen(snake, snakeView.scene);
             snakeView.resetGameButton(snake, worm, food, scene);
-            System.out.println(gameOver);
 
         }));
         timeline.setCycleCount(Timeline.INDEFINITE);
