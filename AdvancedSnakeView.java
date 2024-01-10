@@ -16,20 +16,22 @@ import javafx.scene.text.Font;
 
 public class AdvancedSnakeView extends Application {
     private final int CELL_SIZE = 15;
+    private double buttonWidth;
+    private double buttonHeight;
     private AdvancedSnakeController simpleSnakeController;
     private GraphicsContext gc;
     private Snake snake;
     private Snake worm;
     public Timeline timeline;
-    public Button button;
-    public Group root;
-    public BorderPane borderpane;
+    private Group root;
     public Scene scene;
+    private Grid grid;
 
     @Override
     public void start(Stage primaryStage) {
-        Group root = new Group();
-        Grid grid = new Grid();
+        this.root = new Group();
+        this.grid = new Grid();
+        this.scene = new Scene(root, CELL_SIZE * grid.getGridSizeX(), CELL_SIZE * grid.getGridSizeY(), Color.WHITE);
 
         simpleSnakeController = new AdvancedSnakeController(this, timeline);
 
@@ -41,41 +43,37 @@ public class AdvancedSnakeView extends Application {
         }
 
         Food food = new Food(grid);
-
-        this.button = new Button("LAD OS BEGYNDE!!!!!!!!!!!!!!!!!!!");
-        BorderPane borderpane = new BorderPane();
-
-        int sceneSizeX = CELL_SIZE * grid.getGridSizeX();
-        int sceneSizeY = CELL_SIZE * grid.getGridSizeY();
-
-        this.scene = new Scene(root, sceneSizeX, sceneSizeY, Color.WHITE);
-        final Canvas canvas = new Canvas(sceneSizeX, sceneSizeY);
+        
+        Canvas canvas = new Canvas(scene.getWidth(), scene.getHeight());
         gc = canvas.getGraphicsContext2D();
         root.getChildren().add(canvas);
-        primaryStage.setTitle("JavaFX Grid Example");
+
+        this.buttonWidth = grid.getGridSizeX() * CELL_SIZE / 2.0;
+        this.buttonHeight = grid.getGridSizeY();
+        Button startButton = createButton("Start Game");
+        BorderPane borderpane = createBorderPaneInLocation("MIDDLE", "MIDDLE");
+        borderpane.setCenter(startButton);
+        drawGrid(grid);
+
+        simpleSnakeController.startGame(startButton, food, snake);
+        simpleSnakeController.setupKeyPressHandler(scene, snake, worm, grid);
+
+        drawGrid(grid);
+        primaryStage.setTitle("Snake");
         primaryStage.setScene(scene);
         primaryStage.show();
 
         if (simpleSnakeController.getMultiplayer()) {
-            simpleSnakeController.startGame2p(button, food, snake, worm);
+            simpleSnakeController.startGame2p(startButton, food, snake, worm);
         } else {
-            simpleSnakeController.startGame(button, food, snake);
+            simpleSnakeController.startGame(startButton, food, snake);
         }
-
-        simpleSnakeController.setupKeyPressHandler(scene, snake, worm, grid, food);
 
         if (simpleSnakeController.getMultiplayer()) {
             simpleSnakeController.setUpTimeline2p(snake, worm, grid, food);
         } else {
             simpleSnakeController.setUpTimeline(snake, grid, food);
         }
-
-        borderpane.setPadding(new Insets(sceneSizeY / 2, (sceneSizeX / 2), (sceneSizeY / 2), (sceneSizeX / 2) - 75));
-        borderpane.setCenter(button);
-        root.getChildren().add(borderpane);
-
-        drawGrid(grid);
-
     }
 
     public void drawGrid(Grid grid) {
@@ -135,6 +133,39 @@ public class AdvancedSnakeView extends Application {
             gc.setFont(new Font("Times New Roman", 30));
             gc.fillText("Game Over", scene.getWidth() / 4, scene.getHeight() / 2);
         }
+    }
+
+    public Button createButton(String text) { // Creates button with preferred size.
+        Button button = new Button(text);
+        button.setPrefSize(buttonWidth, buttonHeight);
+        return button;
+    }
+
+    public BorderPane createBorderPaneInLocation(String verticalPlacement, String horizontalPlacement) {
+        BorderPane borderPane = new BorderPane();
+        double topMultiplier = 0.5;
+        double rightMultiplier = 0.5;
+        double bottomMultiplier = 0.5;
+        double leftMultiplier = 0.5;
+        if (verticalPlacement == "TOP") {
+            topMultiplier = 0.20;
+            bottomMultiplier = 0.80;
+        } else if (verticalPlacement == "BOTTOM") {
+            topMultiplier = 0.80;
+            bottomMultiplier = 0.20;
+        }
+        if (horizontalPlacement == "LEFT") {
+            leftMultiplier = 0.20;
+            rightMultiplier = 0.80;
+        } else if (horizontalPlacement == "RIGHT") {
+            leftMultiplier = 0.80;
+            rightMultiplier = 0.20;
+        }
+        borderPane.setPadding(new Insets((scene.getHeight() * topMultiplier) - (buttonHeight * 0.5),
+                (scene.getWidth() * rightMultiplier),
+                (scene.getHeight() * bottomMultiplier), (scene.getWidth() * leftMultiplier) - (buttonWidth * 0.5)));
+        root.getChildren().add(borderPane);
+        return borderPane;
     }
 
     public static void main(String[] args) {

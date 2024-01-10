@@ -31,7 +31,7 @@ public class AdvancedSnakeController {
         this.multiplayer = decideMultiplayer();
     }
 
-    public void setupKeyPressHandler(Scene scene, Snake snake, Snake worm, Grid grid, Food food) {
+    public void setupKeyPressHandler(Scene scene, Snake snake, Snake worm, Grid grid) {
         scene.setOnKeyPressed(e -> {
             KeyCode keyCode = e.getCode();
             if (multiplayer == true) {
@@ -41,14 +41,6 @@ public class AdvancedSnakeController {
                 handleKeyPressSnake(keyCode, snake, grid);
             }
 
-        });
-    }
-
-    public void setupKeyPressHandler2p(Scene scene, Snake snake, Snake worm, Grid grid, Food food) {
-        scene.setOnKeyPressed(e -> {
-            KeyCode keyCode = e.getCode();
-            handleKeyPressSnake(keyCode, snake, grid);
-            handleKeyPressWorm(keyCode, worm, grid);
         });
     }
 
