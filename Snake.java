@@ -13,7 +13,6 @@ public class Snake {
     private char direction;
     private ArrayList<SnakeBody> body;
     private ArrayList<Character> movementBuffer;
-    private boolean hasMadeMove;
     private int oldHeadX = headX;
     private int oldHeadY = headY;
     private Color color;
@@ -127,7 +126,6 @@ public class Snake {
             firstBodyPart.setXpos(oldHeadX);
             firstBodyPart.setYpos(oldHeadY);
         }
-        // hasMadeMove = true;
     }
 
     public void updateGrid(Grid grid) {
@@ -183,10 +181,6 @@ public class Snake {
 
     public void setToBufferDirection() {
         if (movementBuffer.size() > 0) {
-            for (int i = 0; i < movementBuffer.size(); i++) {
-                System.out.print(movementBuffer.get(i) + " ");
-            }
-            System.out.println();
             direction = movementBuffer.get(0);
             movementBuffer.remove(0);
         }
@@ -196,11 +190,4 @@ public class Snake {
         return movementBuffer;
     }
 
-    public boolean getHasMadeMove() {
-        return hasMadeMove;
-    }
-
-    public void setHasMadeMove(boolean bool) {
-        hasMadeMove = bool;
-    }
 }

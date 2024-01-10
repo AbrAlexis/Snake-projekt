@@ -34,6 +34,19 @@ public class AdvancedSnakeController {
     public void setupKeyPressHandler(Scene scene, Snake snake, Snake worm, Grid grid, Food food) {
         scene.setOnKeyPressed(e -> {
             KeyCode keyCode = e.getCode();
+            if (multiplayer == true) {
+                handleKeyPressSnake(keyCode, snake, grid);
+                handleKeyPressWorm(keyCode, worm, grid);
+            } else {
+                handleKeyPressSnake(keyCode, snake, grid);
+            }
+
+        });
+    }
+
+    public void setupKeyPressHandler2p(Scene scene, Snake snake, Snake worm, Grid grid, Food food) {
+        scene.setOnKeyPressed(e -> {
+            KeyCode keyCode = e.getCode();
             handleKeyPressSnake(keyCode, snake, grid);
             handleKeyPressWorm(keyCode, worm, grid);
         });
@@ -45,6 +58,7 @@ public class AdvancedSnakeController {
             SnakeBody tail = new SnakeBody(snake.getBody().get(snake.getBody().size() - 1).getXpos(),
                     snake.getBody().get(snake.getBody().size() - 1).getYpos());
             snakeLastDirection = snake.getDirection();
+            snake.setToBufferDirection();
             snake.move(grid);
             snake.hasEatenApple(food, grid, tail);
             snake.updateGrid(grid);
@@ -63,7 +77,7 @@ public class AdvancedSnakeController {
 
     public void setUpTimeline2p(Snake snake, Snake worm, Grid grid, Food food) {
 
-        this.timeline = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
+        this.timeline = new Timeline(new KeyFrame(Duration.seconds(0.3), event -> {
 
             SnakeBody snakeTail = new SnakeBody(snake.getBody().get(snake.getBody().size() - 1).getXpos(),
                     snake.getBody().get(snake.getBody().size() - 1).getYpos());
@@ -108,14 +122,32 @@ public class AdvancedSnakeController {
     }
 
     public void handleKeyPressSnake(KeyCode keyCode, Snake snake, Grid grid) {
-        if (keyCode == KeyCode.UP && snakeLastDirection != 'D') {
-            snake.setDirection('U');
-        } else if (keyCode == KeyCode.DOWN && snakeLastDirection != 'U') {
-            snake.setDirection('D');
-        } else if (keyCode == KeyCode.LEFT && snakeLastDirection != 'R') {
-            snake.setDirection('L');
-        } else if (keyCode == KeyCode.RIGHT && snakeLastDirection != 'L') {
-            snake.setDirection('R');
+        Map<KeyCode, Character> keyCodeDict = new HashMap<>();
+        // Add key-value pairs to the dictionary
+        keyCodeDict.put(KeyCode.UP, 'U');
+        keyCodeDict.put(KeyCode.DOWN, 'D');
+        keyCodeDict.put(KeyCode.LEFT, 'L');
+        keyCodeDict.put(KeyCode.RIGHT, 'R');
+
+        Map<KeyCode, Character> reverseDirecDict = new HashMap<>();
+        // Add key-value pairs to the dictionary
+        reverseDirecDict.put(KeyCode.UP, 'D');
+        reverseDirecDict.put(KeyCode.DOWN, 'U');
+        reverseDirecDict.put(KeyCode.LEFT, 'R');
+        reverseDirecDict.put(KeyCode.RIGHT, 'L');
+
+        int lastBufferDirectionIndex = snake.getBuffer().size() - 1;
+
+        if (keyCodeDict.containsKey(keyCode)) {
+            if (snake.getBuffer().size() == 0) {
+                if (snakeLastDirection != reverseDirecDict.get(keyCode)) {
+                    snake.setDirection(keyCodeDict.get(keyCode));
+                    snake.getBuffer().add(keyCodeDict.get(keyCode));
+                }
+            } else if (snake.getBuffer().get(lastBufferDirectionIndex) != reverseDirecDict.get(keyCode)) {
+                snake.getBuffer().add(keyCodeDict.get(keyCode));
+            }
+
         }
     }
 
