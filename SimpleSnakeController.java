@@ -36,7 +36,7 @@ public class SimpleSnakeController {
             snakeView.showFood(food);
             snakeView.showSnake(snake);
             snakeView.gameOverScreen(snake, scene);
-            snakeView.resetGameButton(snake, food, scene, button);
+            snakeView.resetGameButton(snake, food, scene);
         });
     }
 

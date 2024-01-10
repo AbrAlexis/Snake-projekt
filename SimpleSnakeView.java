@@ -13,15 +13,11 @@ import javafx.scene.layout.BorderPane;
 
 public class SimpleSnakeView extends Application {
     private final int CELL_SIZE = 15;
-    private final double buttonWidth = CELL_SIZE * 8;
-    private final double buttonHeight = CELL_SIZE * 3;
-    private final double smallButtonWidth = buttonWidth / 2.0;
-    private final double smallButtonHeight = buttonHeight / 2.0;
+    private double buttonWidth;
+    private double buttonHeight;
     private SimpleSnakeController simpleSnakeController;
     private GraphicsContext gc;
     private Grid grid;
-    private Button button;
-    private BorderPane borderpane;
     private Group root;
     private Scene scene;
 
@@ -32,17 +28,21 @@ public class SimpleSnakeView extends Application {
         Snake snake = new Snake(grid);
         Food food = new Food(grid, snake);
         simpleSnakeController = new SimpleSnakeController(this);
-        scene = new Scene(root, CELL_SIZE * grid.getGridSizeX(), CELL_SIZE * grid.getGridSizeY(), Color.WHITE);
+        this.scene = new Scene(root, CELL_SIZE * grid.getGridSizeX(), CELL_SIZE * grid.getGridSizeY(), Color.WHITE);
 
         Canvas canvas = new Canvas(scene.getWidth(), scene.getHeight());
         gc = canvas.getGraphicsContext2D();
         root.getChildren().add(canvas);
 
-        createBorderPaneWithButton(button, scene, "Start Game");
+        this.buttonWidth = grid.getGridSizeX() * CELL_SIZE / 2.0;
+        this.buttonHeight = grid.getGridSizeY();
+        Button startButton = createButton("Start Game");
+        BorderPane borderpane = createBorderPaneInLocation("MIDDLE", "MIDDLE");
+        borderpane.setCenter(startButton);
         drawGrid(grid);
 
-        simpleSnakeController.startGame(button, food, snake);
-        simpleSnakeController.setupKeyPressHandler(scene, snake, grid, food, button);
+        simpleSnakeController.startGame(startButton, food, snake);
+        simpleSnakeController.setupKeyPressHandler(scene, snake, grid, food, startButton);
 
         primaryStage.setTitle("Snake");
         primaryStage.setScene(scene);
@@ -62,38 +62,52 @@ public class SimpleSnakeView extends Application {
         }
     }
 
-    public void createBorderPaneWithButton(Button button, Scene scene, String text) {
-        button = new Button(text);
-
-        if (grid.getGridSizeX() < 10) {
-            this.button.setPrefSize(smallButtonWidth, smallButtonHeight);
-        } else {
-            this.button.setPrefSize(buttonWidth, buttonHeight);
-        }
-
-        this.borderpane = new BorderPane(); // Pane for button is created
-        if (grid.getGridSizeX() < 10) {
-            borderpane.setPadding(new Insets((scene.getHeight() / 2) - (smallButtonHeight / 2), (scene.getWidth() / 2),
-                    (scene.getHeight() / 2), (scene.getWidth() / 2) - (smallButtonWidth / 2)));
-        } else {
-            borderpane.setPadding(new Insets((scene.getHeight() / 2) - (buttonHeight / 2), (scene.getWidth() / 2),
-                    (scene.getHeight() / 2), (scene.getWidth() / 2) - (buttonWidth / 2)));
-        }
-        borderpane.setCenter(button);
-        root.getChildren().add(borderpane);
+    public Button createButton(String text) { // Creates button with preferred size.
+        Button button = new Button(text);
+        button.setPrefSize(buttonWidth, buttonHeight);
+        return button;
     }
 
-    public void resetGameButton(Snake snake, Food food, Scene scene, Button button) {
+    public BorderPane createBorderPaneInLocation(String verticalPlacement, String horizontalPlacement) {
+        BorderPane borderPane = new BorderPane();
+        double topMultiplier = 0.5;
+        double rightMultiplier = 0.5;
+        double bottomMultiplier = 0.5;
+        double leftMultiplier = 0.5;
+        if (verticalPlacement == "TOP") {
+            topMultiplier = 0.20;
+            bottomMultiplier = 0.80;
+        } else if (verticalPlacement == "BOTTOM") {
+            topMultiplier = 0.80;
+            bottomMultiplier = 0.20;
+        }
+        if (horizontalPlacement == "LEFT") {
+            leftMultiplier = 0.20;
+            rightMultiplier = 0.80;
+        } else if (horizontalPlacement == "RIGHT") {
+            leftMultiplier = 0.80;
+            rightMultiplier = 0.20;
+        }
+        borderPane.setPadding(new Insets((scene.getHeight() * topMultiplier) - (buttonHeight * 0.5),
+                (scene.getWidth() * rightMultiplier),
+                (scene.getHeight() * bottomMultiplier), (scene.getWidth() * leftMultiplier) - (buttonWidth * 0.5)));
+        root.getChildren().add(borderPane);
+        return borderPane;
+    }
+
+    public void resetGameButton(Snake snake, Food food, Scene scene) {
         // Create a new button
         if (simpleSnakeController.getGameOverFlag()) {
-            createBorderPaneWithButton(button, scene, "Reset Game");
+            Button resetButton = createButton("Reset Game");
+            BorderPane borderpane = createBorderPaneInLocation("TOP", "");
+            borderpane.setCenter(resetButton);
 
             // Set the button's action
-            button.setOnAction(e -> {
+            resetButton.setOnAction(e -> {
                 // Reset the game here
                 simpleSnakeController.resetGame(grid, snake, food);
-                button.setDisable(true);
-                button.setVisible(false); // Hide the button
+                resetButton.setDisable(true);
+                resetButton.setVisible(false); // Hide the button
 
             });
         }
