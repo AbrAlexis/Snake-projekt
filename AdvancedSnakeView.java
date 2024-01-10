@@ -71,9 +71,9 @@ public class AdvancedSnakeView extends Application {
         }
 
         if (simpleSnakeController.getMultiplayer()) {
-            simpleSnakeController.setUpTimeline2p(snake, worm, grid, food);
+            simpleSnakeController.setUpTimeline2p(snake, worm, grid, food, scene);
         } else {
-            simpleSnakeController.setUpTimeline(snake, grid, food, scene);
+            simpleSnakeController.setUpTimeline(snake, worm, grid, food, scene);
         }
     }
 
@@ -170,17 +170,17 @@ public class AdvancedSnakeView extends Application {
         return borderPane;
     }
 
-    public void resetGameButton(Snake snake, Scene scene) {
+    public void resetGameButton(Snake snake, Snake worm, Food food, Scene scene) {
         // Create a new button
-        if (snake.selfCollision()) {
+        if (simpleSnakeController.getGameOver() == true) {
             Button resetButton = createButton("Reset Game");
             BorderPane borderpane = createBorderPaneInLocation("TOP", "");
             borderpane.setCenter(resetButton);
 
             // Set the button's action
             resetButton.setOnAction(e -> {
-                // Reset the game here
-                //simpleSnakeController.resetGame(primaryStage);  kommenteret ud, da metoden ikke virker
+                simpleSnakeController.resetGame(grid, snake, worm, food);
+                simpleSnakeController.setGameOver(false);
                 resetButton.setDisable(true);
                 resetButton.setVisible(false); // Hide the button
 

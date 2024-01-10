@@ -24,6 +24,7 @@ public class AdvancedSnakeController {
     private char snakeLastDirection;
     private char wormLastDirection;
     private boolean multiplayer;
+    private boolean gameOver;
 
     public AdvancedSnakeController(AdvancedSnakeView snakeView, Timeline timeline) {
         this.snakeView = snakeView;
@@ -44,8 +45,8 @@ public class AdvancedSnakeController {
         });
     }
 
-    public void setUpTimeline(Snake snake, Grid grid, Food food, Scene scene) {
-        this.timeline = new Timeline(new KeyFrame(Duration.seconds(0.1), event -> {
+    public void setUpTimeline(Snake snake, Snake worm, Grid grid, Food food, Scene scene) {
+        this.timeline = new Timeline(new KeyFrame(Duration.seconds(0.2), event -> {
 
             SnakeBody tail = new SnakeBody(snake.getBody().get(snake.getBody().size() - 1).getXpos(),
                     snake.getBody().get(snake.getBody().size() - 1).getYpos());
@@ -63,14 +64,20 @@ public class AdvancedSnakeController {
                 this.timeline.stop();
             }
             snakeView.gameOverScreen(snake, snakeView.scene);
-            snakeView.resetGameButton(snake, scene);
+            snakeView.resetGameButton(snake, worm, food, scene);
+
+            isGameOver(snake, worm);
+
+            snakeView.gameOverScreen(snake, snakeView.scene);
+            snakeView.resetGameButton(snake, worm, food, scene);
+
         }));
         timeline.setCycleCount(Timeline.INDEFINITE);
     }
 
-    public void setUpTimeline2p(Snake snake, Snake worm, Grid grid, Food food) {
+    public void setUpTimeline2p(Snake snake, Snake worm, Grid grid, Food food, Scene scene) {
 
-        this.timeline = new Timeline(new KeyFrame(Duration.seconds(0.3), event -> {
+        this.timeline = new Timeline(new KeyFrame(Duration.seconds(0.2), event -> {
 
             SnakeBody snakeTail = new SnakeBody(snake.getBody().get(snake.getBody().size() - 1).getXpos(),
                     snake.getBody().get(snake.getBody().size() - 1).getYpos());
@@ -109,6 +116,12 @@ public class AdvancedSnakeController {
 
             snakeView.showSnake(snake, snake.getColor());
             snakeView.showSnake(worm, worm.getColor());
+
+            isGameOver(snake, worm);
+
+            snakeView.gameOverScreen(snake, snakeView.scene);
+            snakeView.resetGameButton(snake, worm, food, scene);
+            System.out.println(gameOver);
 
         }));
         timeline.setCycleCount(Timeline.INDEFINITE);
@@ -231,10 +244,57 @@ public class AdvancedSnakeController {
         }
     }
 
-    public void resetGame(Stage stage) {
-        stage.close();
-        Stage newStage = new Stage();
-        snakeView.start(newStage);
+    public void resetGame(Grid grid, Snake snake, Snake worm, Food food) {
+        if (gameOver == true) {
+            int snakeSize = snake.getSize();
+            for (int i = snakeSize - 1; i > 0; i--) {
+                // deletes all but one of snakes bodypart
+                snake.getBody().remove(i);
+            }
+            if (multiplayer == true) {
+                int wormSize = worm.getSize();
+                for (int i = wormSize - 1; i > 0; i--) {
+                    worm.getBody().remove(i);
+                }
+            }
+            // Moves the head back to the middle
+            int gridMiddleX = (int) Math.floor(Double.valueOf(grid.getGridSizeX() / 2));
+            int gridMiddleY = (int) Math.floor(Double.valueOf(grid.getGridSizeY() / 2));
+            if (multiplayer == true) {
+                snake.setHeadX(gridMiddleX + 2);
+            } else {
+                snake.setHeadX(gridMiddleX);
+            }
+
+            snake.setHeadY(gridMiddleY);
+
+            if (multiplayer == true) {
+                System.out.println("wtf!!!!");
+                worm.setHeadX(gridMiddleX - 2);
+                worm.setHeadY(gridMiddleY);
+            }
+            snake.getBody().get(0).setXpos(gridMiddleX);
+            snake.getBody().get(0).setYpos(gridMiddleY + 1);
+
+            if (multiplayer == true) {
+                worm.getBody().get(0).setXpos(gridMiddleX - 2);
+                worm.getBody().get(0).setYpos(gridMiddleY + 1);
+            }
+            snake.setDirection('U');
+            if (multiplayer == true) {
+                worm.setDirection('U');
+            }
+            // gameOverFlag = false; // Set the flag to true to avoid multiple calls
+
+            snakeView.drawGrid(grid);
+            snakeView.showSnake(snake, snake.getColor());
+            if (multiplayer == true) {
+                snakeView.showSnake(worm, worm.getColor());
+            }
+            food.moveFood(grid, snake);
+            snakeView.showFood(food);
+            timeline.play();
+        }
     }
 
     public Timeline getTimeline() {
@@ -245,4 +305,27 @@ public class AdvancedSnakeController {
         return multiplayer;
     }
 
+    public void isGameOver(Snake snake, Snake worm) {
+        if (multiplayer == true) {
+            if (snake.selfCollision() || worm.selfCollision() || snake.otherCollision(worm)
+                    || worm.otherCollision(snake)) {
+                gameOver = true;
+                timeline.stop();
+            }
+        } else {
+            if (snake.selfCollision()) {
+                gameOver = true;
+                timeline.stop();
+            }
+
+        }
+    }
+
+    public boolean getGameOver() {
+        return gameOver;
+    }
+
+    public void setGameOver(Boolean value) {
+        gameOver = value;
+    }
 }

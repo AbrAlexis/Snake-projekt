@@ -61,6 +61,14 @@ public class Snake {
         return headY;
     }
 
+    public void setHeadX(int x) {
+        headX = x;
+    }
+
+    public void setHeadY(int y) {
+        headY = y;
+    }
+
     public int getSize() {
         return this.body.size();
     }
@@ -156,6 +164,7 @@ public class Snake {
         }
         for (int i = 0; i <= other.getSize() - 1; i++) {
             if (headX == other.getBody().get(i).getXpos() && headY == other.getBody().get(i).getYpos()) {
+
                 return true;
             }
         }
