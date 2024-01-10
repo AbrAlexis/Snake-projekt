@@ -63,7 +63,7 @@ public class AdvancedSnakeController {
                 this.timeline.stop();
             }
             snakeView.gameOverScreen(snake, snakeView.scene);
-            snakeView.resetGameButton(snake, food, scene);
+            snakeView.resetGameButton(snake, scene);
         }));
         timeline.setCycleCount(Timeline.INDEFINITE);
     }
@@ -231,10 +231,11 @@ public class AdvancedSnakeController {
         }
     }
 
-    // public void resetGame(Stage primaryStage, AdvancedSnakeView snakeview) {
-    // Stage newStage = new Stage();
-    // snakeview.start(newStage);
-    // }
+    public void resetGame(Stage stage) {
+        stage.close();
+        Stage newStage = new Stage();
+        snakeView.start(newStage);
+    }
 
     public Timeline getTimeline() {
         return timeline;

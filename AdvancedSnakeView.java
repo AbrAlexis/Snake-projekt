@@ -170,7 +170,7 @@ public class AdvancedSnakeView extends Application {
         return borderPane;
     }
 
-    public void resetGameButton(Snake snake, Food food, Scene scene) {
+    public void resetGameButton(Snake snake, Scene scene) {
         // Create a new button
         if (snake.selfCollision()) {
             Button resetButton = createButton("Reset Game");
@@ -180,7 +180,7 @@ public class AdvancedSnakeView extends Application {
             // Set the button's action
             resetButton.setOnAction(e -> {
                 // Reset the game here
-                // simpleSnakeController.resetGame();
+                //simpleSnakeController.resetGame(primaryStage);  kommenteret ud, da metoden ikke virker
                 resetButton.setDisable(true);
                 resetButton.setVisible(false); // Hide the button
 
