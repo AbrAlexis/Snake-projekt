@@ -119,13 +119,21 @@ public class AdvancedSnakeView extends Application {
     }
 
     public void gameOverScreen2p() {
-        if (snake.selfCollision() || worm.selfCollision() || snake.otherCollision(worm) || worm.otherCollision(snake)) {
-            System.out.println("collision");
+        if (snake.selfCollision() || snake.otherCollision(worm)) {
+            System.out.println("Worm wins!!!");
             simpleSnakeController.getTimeline().stop();
             gc.setFill(Color.RED);
             gc.setFont(new Font("Times New Roman", 30));
             gc.fillText("Game Over", scene.getWidth() / 4, scene.getHeight() / 2);
 
+        }
+
+        if (worm.selfCollision() || worm.otherCollision(snake)) {
+            System.out.println("Snake wins!!!");
+            simpleSnakeController.getTimeline().stop();
+            gc.setFill(Color.RED);
+            gc.setFont(new Font("Times New Roman", 30));
+            gc.fillText("Game Over", scene.getWidth() / 4, scene.getHeight() / 2);
         }
     }
 
