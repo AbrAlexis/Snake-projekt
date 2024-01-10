@@ -21,7 +21,7 @@ public class SimpleSnakeController {
         gameOverFlag = value;
     }
 
-    public void setupKeyPressHandler(Scene scene, Snake snake, Grid grid, Food food) {
+    public void setupKeyPressHandler(Scene scene, Snake snake, Grid grid, Food food, Button button) {
         scene.setOnKeyPressed(e -> {
             SnakeBody tail = new SnakeBody(snake.getBody().get(snake.getBody().size() - 1).getXpos(),
                     snake.getBody().get(snake.getBody().size() - 1).getYpos());
@@ -36,7 +36,7 @@ public class SimpleSnakeController {
             snakeView.showFood(food);
             snakeView.showSnake(snake);
             snakeView.gameOverScreen(snake, scene);
-            snakeView.resetGameButton(snake, food);
+            snakeView.resetGameButton(snake, food, scene, button);
         });
     }
 
@@ -92,7 +92,7 @@ public class SimpleSnakeController {
 
         snakeView.drawGrid(grid);
         snakeView.showSnake(snake);
-        food.moveFood(grid,snake);
+        food.moveFood(grid, snake);
         snakeView.showFood(food);
     }
 }
