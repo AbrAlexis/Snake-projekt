@@ -31,8 +31,7 @@ public class Snake {
 
     }
 
-    public Snake(Grid grid, int middleOffsetX, Color color) { // Creates Snake at random location (except the borders of
-        // the grid)
+    public Snake(Grid grid, int middleOffsetX, Color color) {
         int gridMiddleX = (int) Math.floor(Double.valueOf(grid.getGridSizeX() / 2) + middleOffsetX);
         int gridMiddleY = (int) Math.floor(Double.valueOf(grid.getGridSizeY() / 2));
         this.headX = gridMiddleX;

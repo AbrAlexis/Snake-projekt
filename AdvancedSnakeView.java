@@ -110,13 +110,15 @@ public class AdvancedSnakeView extends Application {
         }
     }
 
-    public void gameOverScreen(Snake snake, Scene scene) {
+    // Stops the game and draws Game Over screen, when collision happens.
+    public void gameOverScreen(Snake snake) {
         if (snake.selfCollision()) {
             simpleSnakeController.getTimeline().stop();
             drawMiddleText("Game Over" + "\nScore: " + snake.getSize(), Color.RED);
         }
     }
 
+    // Stops the game and draws 2 player Game Over screen, when collision happens.
     public void gameOverScreen2p(Scene scene, Snake snake, Snake worm) {
 
         if ((worm.selfCollision() && snake.selfCollision())
@@ -135,6 +137,7 @@ public class AdvancedSnakeView extends Application {
         }
     }
 
+    // Draws text near the middle, in given color.
     public void drawMiddleText(String text, Color color) {
         gc.setFill(Color.RED);
         int fontSize = 60;
@@ -146,7 +149,6 @@ public class AdvancedSnakeView extends Application {
         gc.setFill(color);
         gc.setFont(new Font("Times New Roman", fontSize));
         gc.fillText(text, scene.getWidth() / 2.0 - fontSize * 2, scene.getHeight() / 2.0);
-
     }
 
     // Creates button with preferred size.
@@ -156,8 +158,8 @@ public class AdvancedSnakeView extends Application {
         return button;
     }
 
-    // Method for placing BorderPane in 9 locations.
-    // If empty, placed in middle.
+    // Method for placing BorderPane in the center of 9 locations.
+    // If Strings are left empty, placed in middle.
     public BorderPane createBorderPaneInLocation(String verticalPlacement, String horizontalPlacement) {
         BorderPane borderPane = new BorderPane();
         double topMultiplier = 0.5;
@@ -178,6 +180,7 @@ public class AdvancedSnakeView extends Application {
             leftMultiplier = 0.80;
             rightMultiplier = 0.20;
         }
+        // subtracts the button's dimensions from the insets
         borderPane.setPadding(new Insets((scene.getHeight() * topMultiplier) - (buttonHeight * 0.5),
                 (scene.getWidth() * rightMultiplier),
                 (scene.getHeight() * bottomMultiplier), (scene.getWidth() * leftMultiplier) - (buttonWidth * 0.5)));

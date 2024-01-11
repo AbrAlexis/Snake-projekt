@@ -64,7 +64,7 @@ public class AdvancedSnakeController {
             }
 
             isGameOver(snake, worm);
-            snakeView.gameOverScreen(snake, snakeView.scene);
+            snakeView.gameOverScreen(snake);
             snakeView.resetGameButton(snake, worm, food, snakeView.scene);
 
         }));
@@ -271,13 +271,12 @@ public class AdvancedSnakeController {
                 worm.setHeadY(gridMiddleY);
             }
             if (multiplayer == true) {
-                    snake.getBody().get(0).setXpos(gridMiddleX + 2);
-                    snake.getBody().get(0).setYpos(gridMiddleY + 1);
-            }else{
+                snake.getBody().get(0).setXpos(gridMiddleX + 2);
+                snake.getBody().get(0).setYpos(gridMiddleY + 1);
+            } else {
                 snake.getBody().get(0).setXpos(gridMiddleX);
                 snake.getBody().get(0).setYpos(gridMiddleY + 1);
             }
-            
 
             if (multiplayer == true) {
                 worm.getBody().get(0).setXpos(gridMiddleX - 2);
