@@ -1,11 +1,6 @@
 import java.util.*;
-import java.util.concurrent.ThreadLocalRandom;
-
-import javax.print.attribute.standard.MediaSize.Other;
 
 import javafx.scene.paint.Color;
-
-import javafx.animation.Timeline;
 
 public class Snake {
     private int headX;
@@ -17,7 +12,8 @@ public class Snake {
     private int oldHeadY = headY;
     private Color color;
 
-    public Snake(Grid grid, Color color) { // Creates the Gamestart Snake
+    // Creates the Gamestart Snake
+    public Snake(Grid grid, Color color) {
         int gridMiddleX = (int) Math.floor(Double.valueOf(grid.getGridSizeX() / 2) - 1);
         int gridMiddleY = (int) Math.floor(Double.valueOf(grid.getGridSizeY() / 2));
         this.headX = gridMiddleX;
@@ -35,8 +31,9 @@ public class Snake {
 
     }
 
-    public Snake(Grid grid, int x, Color color) { // Creates Snake at random location (except the borders of the grid)
-        int gridMiddleX = (int) Math.floor(Double.valueOf(grid.getGridSizeX() / 2) + x);
+    public Snake(Grid grid, int middleOffsetX, Color color) { // Creates Snake at random location (except the borders of
+        // the grid)
+        int gridMiddleX = (int) Math.floor(Double.valueOf(grid.getGridSizeX() / 2) + middleOffsetX);
         int gridMiddleY = (int) Math.floor(Double.valueOf(grid.getGridSizeY() / 2));
         this.headX = gridMiddleX;
         this.headY = gridMiddleY;
@@ -52,7 +49,6 @@ public class Snake {
         this.movementBuffer = new ArrayList<Character>(0);
     }
 
-    // Metoder for snakkens krop og position.
     public int getHeadX() {
         return headX;
     }
@@ -81,7 +77,6 @@ public class Snake {
         body.add(new SnakeBody(x, y));
     }
 
-    // Metoder til retningen for slangen.
     public char getDirection() {
         return direction;
     }
@@ -94,7 +89,7 @@ public class Snake {
         return color;
     }
 
-    // Metode til at opdatere slangebevægelse baseret på retningen.
+    // Updates snakemovement based on direction
     public void move(Grid grid) {
         oldHeadX = headX;
         oldHeadY = headY;
@@ -120,7 +115,7 @@ public class Snake {
         moveBody(grid);
     }
 
-    // Metode der rykker kroppen og sørger for at den følger leddet foran.
+    // Moves body and makes sure the bodypart follows the previous one.
     private void moveBody(Grid grid) {
         if (body.size() > 0) {
             for (int i = body.size() - 1; i > 0; i--) {
@@ -129,13 +124,14 @@ public class Snake {
                 currentBodyPart.setXpos(previousBodyPart.getXpos());
                 currentBodyPart.setYpos(previousBodyPart.getYpos());
             }
-            // Opdatering der sørger for at den forreste kropsdel følger hovedet.
+            // The frontmost bodypart follows head.
             SnakeBody firstBodyPart = body.get(0);
             firstBodyPart.setXpos(oldHeadX);
             firstBodyPart.setYpos(oldHeadY);
         }
     }
 
+    // Resets grid value and updates snakes coordinates.
     public void updateGrid(Grid grid) {
         for (int i = 0; i < grid.getGridSizeX(); i++) {
             for (int j = 0; j < grid.getGridSizeY(); j++) {
@@ -148,6 +144,7 @@ public class Snake {
         }
     }
 
+    // Checks for selfcollision
     public boolean selfCollision() {
         for (int i = 0; i < body.size(); i++) {
             if (headX == body.get(i).getXpos() && headY == body.get(i).getYpos()) {
@@ -157,6 +154,7 @@ public class Snake {
         return false;
     }
 
+    // Checks for othercollision in multiplayer.
     public boolean otherCollision(Snake other) {
 
         if (headX == other.getHeadX() && headY == other.getHeadY()) {
@@ -171,6 +169,7 @@ public class Snake {
         return false;
     }
 
+    // Method for eating apple.
     public void hasEatenApple(Food food, Grid grid, SnakeBody snakeBody) {
 
         if (food.foodEaten(this, grid) == true) {
@@ -179,9 +178,10 @@ public class Snake {
         }
     }
 
+    // Method for winning game
     public boolean isVictorious(Snake snake, Grid grid) {
         if (grid.getGridSizeX() * grid.getGridSizeY() == snake.getSize() + 1) {
-            System.out.println("victory");
+            System.out.println("Victory");
             return true;
         } else {
             return false;
