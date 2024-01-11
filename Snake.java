@@ -1,11 +1,6 @@
 import java.util.*;
-import java.util.concurrent.ThreadLocalRandom;
-
-import javax.print.attribute.standard.MediaSize.Other;
 
 import javafx.scene.paint.Color;
-
-import javafx.animation.Timeline;
 
 public class Snake {
     private int headX;

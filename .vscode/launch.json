@@ -9,6 +9,13 @@
       "name": "AdvancedSnakeView",
       "request": "launch",
       "mainClass": "AdvancedSnakeView",
+      "projectName": "Snake-projekt_f8b54ea"
+    },
+    {
+      "type": "java",
+      "name": "AdvancedSnakeView",
+      "request": "launch",
+      "mainClass": "AdvancedSnakeView",
       "projectName": "Snake-projekt_333bbcda"
     },
     {
