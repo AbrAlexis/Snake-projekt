@@ -20,6 +20,7 @@ public class Food {
         return foodY;
     }
 
+    // Moves food in singleplayer.
     public void moveFood(Grid grid, Snake snake) {
         do {
             this.foodX = ThreadLocalRandom.current().nextInt(0, grid.getGridSizeX());
