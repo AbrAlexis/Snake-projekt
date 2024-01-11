@@ -31,6 +31,24 @@ public class Snake {
 
     }
 
+    public Snake(Grid grid, int middleOffsetX, Color color) { // Creates Snake at random location (except the borders of
+        // the grid)
+        int gridMiddleX = (int) Math.floor(Double.valueOf(grid.getGridSizeX() / 2) + middleOffsetX);
+        int gridMiddleY = (int) Math.floor(Double.valueOf(grid.getGridSizeY() / 2));
+        this.headX = gridMiddleX;
+        this.headY = gridMiddleY;
+        this.direction = 'U';
+        this.body = new ArrayList<SnakeBody>(1);
+        body.add(new SnakeBody(gridMiddleX, gridMiddleY + 1));
+
+        this.oldHeadX = gridMiddleX;
+        this.oldHeadY = gridMiddleY;
+
+        this.color = color;
+
+        this.movementBuffer = new ArrayList<Character>(0);
+    }
+
     public int getHeadX() {
         return headX;
     }

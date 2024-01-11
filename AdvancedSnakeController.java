@@ -277,8 +277,14 @@ public class AdvancedSnakeController {
                 worm.setHeadX(gridMiddleX - 2);
                 worm.setHeadY(gridMiddleY);
             }
-            snake.getBody().get(0).setXpos(gridMiddleX);
-            snake.getBody().get(0).setYpos(gridMiddleY + 1);
+            if (multiplayer == true) {
+                    snake.getBody().get(0).setXpos(gridMiddleX + 2);
+                    snake.getBody().get(0).setYpos(gridMiddleY + 1);
+            }else{
+                snake.getBody().get(0).setXpos(gridMiddleX);
+                snake.getBody().get(0).setYpos(gridMiddleY + 1);
+            }
+            
 
             if (multiplayer == true) {
                 worm.getBody().get(0).setXpos(gridMiddleX - 2);

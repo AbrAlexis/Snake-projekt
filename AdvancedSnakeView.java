@@ -37,8 +37,8 @@ public class AdvancedSnakeView extends Application {
         simpleSnakeController = new AdvancedSnakeController(this, timeline);
 
         if (simpleSnakeController.getMultiplayer()) {
-            snake = new Snake(grid, Color.BLUE);
-            worm = new Snake(grid, Color.GREY);
+            snake = new Snake(grid, 2, Color.BLUE);
+            worm = new Snake(grid, -2, Color.GREY);
         } else {
             snake = new Snake(grid, Color.BEIGE);
         }
