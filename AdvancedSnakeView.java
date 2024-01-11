@@ -1,5 +1,5 @@
 import java.util.ArrayList;
-import javafx.animation.KeyFrame;
+
 import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.geometry.Insets;
@@ -11,7 +11,7 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import javafx.util.Duration;
+
 import javafx.scene.text.Font;
 
 public class AdvancedSnakeView extends Application {
@@ -26,7 +26,6 @@ public class AdvancedSnakeView extends Application {
     private Group root;
     public Scene scene;
     private Grid grid;
-    private Stage primaryStage;
 
     @Override
     public void start(Stage primaryStage) {

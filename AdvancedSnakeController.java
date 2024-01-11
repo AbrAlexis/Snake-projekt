@@ -1,15 +1,10 @@
 import java.util.HashMap;
 import javafx.scene.input.KeyCode;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
-import javafx.stage.Stage;
+
 import javafx.util.Duration;
-import javafx.scene.Group;
+
 import javafx.scene.Scene;
 
-import java.util.Dictionary;
-import java.util.Hashtable;
 import java.util.Map;
 import java.util.Scanner;
 import javafx.animation.KeyFrame;
@@ -19,7 +14,7 @@ import javafx.scene.control.Button;
 
 public class AdvancedSnakeController {
     private AdvancedSnakeView snakeView;
-    private EventHandler<ActionEvent> eventHandler;
+
     private Timeline timeline;
     private char snakeLastDirection;
     private char wormLastDirection;
@@ -171,7 +166,6 @@ public class AdvancedSnakeController {
         reverseDirecDict.put(KeyCode.A, 'R');
         reverseDirecDict.put(KeyCode.D, 'L');
 
-        Map<Character, Character> charReverseDirecDict = new HashMap<>();
         // Add key-value pairs to the dictionary
 
         int lastBufferDirectionIndex = snake.getBuffer().size() - 1;
