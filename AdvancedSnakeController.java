@@ -63,13 +63,10 @@ public class AdvancedSnakeController {
             if (snake.isVictorious(snake, grid) == true) {
                 this.timeline.stop();
             }
-            snakeView.gameOverScreen(snake, snakeView.scene);
-            snakeView.resetGameButton(snake, worm, food, scene);
 
             isGameOver(snake, worm);
-
             snakeView.gameOverScreen(snake, snakeView.scene);
-            snakeView.resetGameButton(snake, worm, food, scene);
+            snakeView.resetGameButton(snake, worm, food, snakeView.scene);
 
         }));
         timeline.setCycleCount(Timeline.INDEFINITE);
@@ -108,10 +105,7 @@ public class AdvancedSnakeController {
             snake.otherCollision(worm);
             worm.otherCollision(snake);
 
-            snakeView.gameOverScreen2p();
-
             snakeView.drawGrid(grid);
-
             snakeView.showFood(food);
 
             snakeView.showSnake(snake, snake.getColor());
@@ -119,8 +113,8 @@ public class AdvancedSnakeController {
 
             isGameOver(snake, worm);
 
-            snakeView.gameOverScreen(snake, snakeView.scene);
-            snakeView.resetGameButton(snake, worm, food, scene);
+            snakeView.gameOverScreen2p(snakeView.scene, snake, worm);
+            snakeView.resetGameButton(snake, worm, food, snakeView.scene);
 
         }));
         timeline.setCycleCount(Timeline.INDEFINITE);
@@ -268,7 +262,6 @@ public class AdvancedSnakeController {
             snake.setHeadY(gridMiddleY);
 
             if (multiplayer == true) {
-                System.out.println("wtf!!!!");
                 worm.setHeadX(gridMiddleX - 2);
                 worm.setHeadY(gridMiddleY);
             }

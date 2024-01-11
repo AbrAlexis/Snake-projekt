@@ -26,7 +26,6 @@ public class AdvancedSnakeView extends Application {
     private Group root;
     public Scene scene;
     private Grid grid;
-    private Stage primaryStage;
 
     @Override
     public void start(Stage primaryStage) {
@@ -110,31 +109,40 @@ public class AdvancedSnakeView extends Application {
     public void gameOverScreen(Snake snake, Scene scene) {
         if (snake.selfCollision()) {
             simpleSnakeController.getTimeline().stop();
-            gc.setFill(Color.RED);
-            gc.setFont(new Font("Times New Roman", 30));
-            gc.fillText("Game Over" + "\nScore: " + snake.getSize(), (grid.getGridSizeX() * CELL_SIZE) / 5,
-                    scene.getHeight() / 2);
-
+            drawMiddleText("Game Over" + "\nScore: " + snake.getSize(), Color.RED);
         }
     }
 
-    public void gameOverScreen2p() {
-        if (snake.selfCollision() || snake.otherCollision(worm)) {
-            System.out.println("Worm wins!!!");
-            simpleSnakeController.getTimeline().stop();
-            gc.setFill(Color.RED);
-            gc.setFont(new Font("Times New Roman", 30));
-            gc.fillText("Game Over", scene.getWidth() / 4, scene.getHeight() / 2);
+    public void gameOverScreen2p(Scene scene, Snake snake, Snake worm) {
 
-        }
-
-        if (worm.selfCollision() || worm.otherCollision(snake)) {
-            System.out.println("Snake wins!!!");
+        if ((worm.selfCollision() && snake.selfCollision())
+                || (worm.otherCollision(snake) && snake.otherCollision(worm))) {
+            System.out.println("Draw!");
             simpleSnakeController.getTimeline().stop();
-            gc.setFill(Color.RED);
-            gc.setFont(new Font("Times New Roman", 30));
-            gc.fillText("Game Over", scene.getWidth() / 4, scene.getHeight() / 2);
+            drawMiddleText("Game Over \nDraw!", Color.RED);
+        } else if (worm.selfCollision() || (worm.otherCollision(snake) && !snake.otherCollision(worm))) {
+            System.out.println("Snake wins!");
+            simpleSnakeController.getTimeline().stop();
+            drawMiddleText("Game Over \nSnake wins!", Color.BLUE);
+        } else if (snake.selfCollision() || (snake.otherCollision(worm) && !worm.otherCollision(snake))) {
+            System.out.println("Worm wins!");
+            simpleSnakeController.getTimeline().stop();
+            drawMiddleText("Game Over \nWorm wins!", Color.GREY);
         }
+    }
+
+    public void drawMiddleText(String text, Color color) {
+        gc.setFill(Color.RED);
+        int fontSize = 60;
+        if (grid.getGridSizeX() < 20) {
+            fontSize = 20;
+        } else if (grid.getGridSizeX() < 50) {
+            fontSize = 40;
+        }
+        gc.setFill(color);
+        gc.setFont(new Font("Times New Roman", fontSize));
+        gc.fillText(text, scene.getWidth() / 2.0 - fontSize * 2, scene.getHeight() / 2.0);
+
     }
 
     public Button createButton(String text) { // Creates button with preferred size.
