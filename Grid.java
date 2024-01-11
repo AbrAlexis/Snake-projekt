@@ -25,10 +25,6 @@ public class Grid {
         return grid;
     }
 
-    public Canvas getCanvas() {
-        return new Canvas();
-    }
-
     public int getType(int row, int col) {
         return grid[row][col];
     }
