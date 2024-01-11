@@ -11,7 +11,6 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-
 import javafx.scene.text.Font;
 
 public class AdvancedSnakeView extends Application {
@@ -28,6 +27,8 @@ public class AdvancedSnakeView extends Application {
     private Grid grid;
 
     @Override
+    // The main method for running the program.
+    // Uses previous made methods.
     public void start(Stage primaryStage) {
         this.root = new Group();
         this.grid = new Grid();
@@ -36,13 +37,13 @@ public class AdvancedSnakeView extends Application {
         simpleSnakeController = new AdvancedSnakeController(this, timeline);
 
         if (simpleSnakeController.getMultiplayer()) {
-            snake = new Snake(grid, +1, Color.BLUE);
-            worm = new Snake(grid, -2, Color.GREY);
+            snake = new Snake(grid, Color.BLUE);
+            worm = new Snake(grid, Color.GREY);
         } else {
             snake = new Snake(grid, Color.BEIGE);
         }
 
-        Food food = new Food(grid);
+        Food food = new Food(grid, snake);
 
         Canvas canvas = new Canvas(scene.getWidth(), scene.getHeight());
         gc = canvas.getGraphicsContext2D();
@@ -76,6 +77,7 @@ public class AdvancedSnakeView extends Application {
         }
     }
 
+    // Draws grid in checkered pattern.
     public void drawGrid(Grid grid) {
         for (int i = 0; i < grid.getGridSizeX(); i++) {
             for (int j = 0; j < grid.getGridSizeY(); j++) {
@@ -89,16 +91,18 @@ public class AdvancedSnakeView extends Application {
         }
     }
 
+    // Paints food on grid in chosen color.
     public void showFood(Food food) {
         gc.setFill(Color.RED);
         gc.fillRect(food.getFoodX() * CELL_SIZE, food.getFoodY() * CELL_SIZE, CELL_SIZE, CELL_SIZE);
     }
 
+    // Paints snake in graphicscontext.
     public void showSnake(Snake snake, Color color) {
-        // Farve på hoved
+        // Paints head
         gc.setFill(color);
         gc.fillRect(snake.getHeadX() * CELL_SIZE, snake.getHeadY() * CELL_SIZE, CELL_SIZE, CELL_SIZE);
-        // Farve på krop
+        // Paints body
         ArrayList<SnakeBody> body = snake.getBody();
         for (int i = 0; i < body.size(); i++) {
             gc.setFill(Color.BLACK);
@@ -117,6 +121,7 @@ public class AdvancedSnakeView extends Application {
         }
     }
 
+    // Game Over in Multiplayer.
     public void gameOverScreen2p() {
         if (snake.selfCollision() || snake.otherCollision(worm)) {
             System.out.println("Worm wins!!!");
@@ -136,12 +141,15 @@ public class AdvancedSnakeView extends Application {
         }
     }
 
-    public Button createButton(String text) { // Creates button with preferred size.
+    // Creates button with preferred size.
+    public Button createButton(String text) {
         Button button = new Button(text);
         button.setPrefSize(buttonWidth, buttonHeight);
         return button;
     }
 
+    // Method for placing BorderPane in 9 locations.
+    // If empty, placed in middle.
     public BorderPane createBorderPaneInLocation(String verticalPlacement, String horizontalPlacement) {
         BorderPane borderPane = new BorderPane();
         double topMultiplier = 0.5;
@@ -169,8 +177,8 @@ public class AdvancedSnakeView extends Application {
         return borderPane;
     }
 
+    // Creates a reset button
     public void resetGameButton(Snake snake, Snake worm, Food food, Scene scene) {
-        // Create a new button
         if (simpleSnakeController.getGameOver() == true) {
             Button resetButton = createButton("Reset Game");
             BorderPane borderpane = createBorderPaneInLocation("TOP", "");

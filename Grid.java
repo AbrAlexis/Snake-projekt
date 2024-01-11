@@ -1,14 +1,15 @@
 import java.util.*;
 import javafx.scene.canvas.Canvas;
 
+//Grid with constructor that generates an object of type grid.
 public class Grid {
     private int gridSizeX;
     private int gridSizeY;
     private int[][] grid;
 
     public Grid() {
-        this.gridSizeX = createGrid("Please enter grid width: ");
-        this.gridSizeY = createGrid("Please enter grid height: ");
+        this.gridSizeX = getGridDimension("Please enter grid width: ");
+        this.gridSizeY = getGridDimension("Please enter grid height: ");
         this.grid = new int[gridSizeX][gridSizeY];
     }
 
@@ -36,7 +37,8 @@ public class Grid {
         grid[row][col] = type;
     }
 
-    public int createGrid(String prompt) { // Gets user input for grid width and grid height
+    // Creates grid from user inputs.
+    public int getGridDimension(String prompt) {
         int size = 0;
         Scanner console = new Scanner(System.in);
         System.out.print(prompt);

@@ -21,12 +21,15 @@ public class AdvancedSnakeController {
     private boolean multiplayer;
     private boolean gameOver;
 
+    // Constructor for Advanced snake controller.
+    // Makes sure the controller has access to snakeView.
     public AdvancedSnakeController(AdvancedSnakeView snakeView, Timeline timeline) {
         this.snakeView = snakeView;
         this.timeline = timeline;
         this.multiplayer = decideMultiplayer();
     }
 
+    // Method that handles user KeyPress for both single and multiplayer.
     public void setupKeyPressHandler(Scene scene, Snake snake, Snake worm, Grid grid) {
         scene.setOnKeyPressed(e -> {
             KeyCode keyCode = e.getCode();
@@ -40,6 +43,7 @@ public class AdvancedSnakeController {
         });
     }
 
+    // Timeline for singleplayer.
     public void setUpTimeline(Snake snake, Snake worm, Grid grid, Food food, Scene scene) {
         this.timeline = new Timeline(new KeyFrame(Duration.seconds(0.2), event -> {
 
@@ -70,6 +74,7 @@ public class AdvancedSnakeController {
         timeline.setCycleCount(Timeline.INDEFINITE);
     }
 
+    // Timeline for 2 Player.
     public void setUpTimeline2p(Snake snake, Snake worm, Grid grid, Food food, Scene scene) {
 
         this.timeline = new Timeline(new KeyFrame(Duration.seconds(0.2), event -> {
@@ -121,6 +126,7 @@ public class AdvancedSnakeController {
         timeline.setCycleCount(Timeline.INDEFINITE);
     }
 
+    // Adds KeyPress actions for snake.
     public void handleKeyPressSnake(KeyCode keyCode, Snake snake, Grid grid) {
         Map<KeyCode, Character> keyCodeDict = new HashMap<>();
         // Add key-value pairs to the dictionary
@@ -151,6 +157,7 @@ public class AdvancedSnakeController {
         }
     }
 
+    // Adds KeyPress actions for worm.
     public void handleKeyPressWorm(KeyCode keyCode, Snake snake, Grid grid) {
         Map<KeyCode, Character> keyCodeDict = new HashMap<>();
         // Add key-value pairs to the dictionary
@@ -183,6 +190,7 @@ public class AdvancedSnakeController {
         }
     }
 
+    // Method for starting game.
     public void startGame(Button button, Food food, Snake snake) {
         button.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -197,6 +205,7 @@ public class AdvancedSnakeController {
         });
     }
 
+    // Method for starting game in multiplayer.
     public void startGame2p(Button button, Food food, Snake snake, Snake worm) {
         button.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -211,6 +220,7 @@ public class AdvancedSnakeController {
         });
     }
 
+    // Method that decides multiplayer or singeplayer.
     public boolean decideMultiplayer() {
         Scanner console = new Scanner(System.in);
         String userInputNumber;
@@ -237,6 +247,7 @@ public class AdvancedSnakeController {
         }
     }
 
+    // Resetgame method.
     public void resetGame(Grid grid, Snake snake, Snake worm, Food food) {
         if (gameOver == true) {
             int snakeSize = snake.getSize();
@@ -298,6 +309,7 @@ public class AdvancedSnakeController {
         return multiplayer;
     }
 
+    // Checks for gameover and stops if true.
     public void isGameOver(Snake snake, Snake worm) {
         if (multiplayer == true) {
             if (snake.selfCollision() || worm.selfCollision() || snake.otherCollision(worm)
