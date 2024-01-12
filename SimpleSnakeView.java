@@ -128,7 +128,7 @@ public class SimpleSnakeView extends Application {
         size = Math.min(Math.max(5, minGridSize * CELL_SIZE / 6), 75);
         if (simpleSnakeController.getGameOverFlag() == true) {
 
-            gc.setFill(Color.BLUE);
+            gc.setFill(Color.RED);
             gc.setFont(new Font("Times New Roman", size));
             gc.fillText("Game Over" + "\n Score: " + snake.getBody().size(),
                     scene.getWidth() / 8,
