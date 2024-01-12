@@ -1,7 +1,9 @@
+// Represents a body part of the snake in the Snake game
 public class SnakeBody {
     private int xPos;
     private int yPos;
 
+    // Constructor to initialize the snake body part with given coordinates
     public SnakeBody(int x, int y) {
         this.xPos = x;
         this.yPos = y;

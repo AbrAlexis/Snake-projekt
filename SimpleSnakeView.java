@@ -11,6 +11,7 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.scene.layout.BorderPane;
 
+//View class for snake game using JavaFX
 public class SimpleSnakeView extends Application {
     private final int CELL_SIZE = 15;
     private double buttonWidth;
@@ -21,6 +22,7 @@ public class SimpleSnakeView extends Application {
     private Group root;
     private Scene scene;
 
+    // Entry point for the JavaFX application
     @Override
     public void start(Stage primaryStage) {
         this.grid = new Grid();
@@ -49,6 +51,7 @@ public class SimpleSnakeView extends Application {
         primaryStage.show();
     }
 
+    // Method to draw the initial grid
     public void drawGrid(Grid grid) {
         for (int i = 0; i < grid.getGridSizeX(); i++) {
             for (int j = 0; j < grid.getGridSizeY(); j++) {
@@ -62,12 +65,16 @@ public class SimpleSnakeView extends Application {
         }
     }
 
-    public Button createButton(String text) { // Creates button with preferred size.
+    // Method to create a button with a preferred size
+    public Button createButton(String text) {
         Button button = new Button(text);
         button.setPrefSize(buttonWidth, buttonHeight);
         return button;
     }
 
+    // The method relies on the 'button size' to create a pane for button placement.
+    // It positions the BorderPane using insets from top, right, left, and bottom,
+    // adjusting for the button's width and height.
     public BorderPane createBorderPaneInLocation(String verticalPlacement, String horizontalPlacement) {
         BorderPane borderPane = new BorderPane();
         double topMultiplier = 0.5;
@@ -95,8 +102,9 @@ public class SimpleSnakeView extends Application {
         return borderPane;
     }
 
+    // Method to create a button for resetting the game
     public void resetGameButton(Snake snake, Food food, Scene scene) {
-        // Create a new button
+
         if (simpleSnakeController.getGameOverFlag()) {
             Button resetButton = createButton("Reset Game");
             BorderPane borderpane = createBorderPaneInLocation("TOP", "");
@@ -113,7 +121,7 @@ public class SimpleSnakeView extends Application {
         }
     }
 
-    // Metode der tjekker selfcollision og derefter printer "Game Over".
+    // Method to display the "Game Over" screen
     public void gameOverScreen(Snake snake, Scene scene) {
         int size;
         int minGridSize = Math.min(grid.getGridSizeX(), grid.getGridSizeY());
@@ -129,16 +137,18 @@ public class SimpleSnakeView extends Application {
         }
     }
 
+    // Method to display the food on the canvas
     public void showFood(Food food) {
         gc.setFill(Color.RED);
         gc.fillRect(food.getFoodX() * CELL_SIZE, food.getFoodY() * CELL_SIZE, CELL_SIZE, CELL_SIZE);
     }
 
+    // Method to display the snake on the canvas
     public void showSnake(Snake snake) {
         // Farve på hoved
         gc.setFill(Color.BLUE);
         gc.fillRect(snake.getHeadX() * CELL_SIZE, snake.getHeadY() * CELL_SIZE, CELL_SIZE, CELL_SIZE);
-        // Farve på krop
+        // Body color
         ArrayList<SnakeBody> body = snake.getBody();
         for (int i = 0; i < body.size(); i++) {
             gc.setFill(Color.BLACK);
@@ -146,6 +156,7 @@ public class SimpleSnakeView extends Application {
         }
     }
 
+    // Main method to launch the application
     public static void main(String[] args) {
         launch(args);
     }

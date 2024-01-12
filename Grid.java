@@ -7,8 +7,9 @@ public class Grid {
     private int[][] grid;
 
     public Grid() {
-        this.gridSizeX = createGrid("Please enter grid width: ");
-        this.gridSizeY = createGrid("Please enter grid height: ");
+        // Initialize grid dimensions based on user input
+        this.gridSizeX = gridDimension("Please enter grid width: ");
+        this.gridSizeY = gridDimension("Please enter grid height: ");
         this.grid = new int[gridSizeX][gridSizeY];
     }
 
@@ -36,7 +37,8 @@ public class Grid {
         grid[row][col] = type;
     }
 
-    public int createGrid(String prompt) { // Gets user input for grid width and grid height
+    // Gets user input for grid width and grid height
+    public int gridDimension(String prompt) {
         int size = 0;
         Scanner console = new Scanner(System.in);
         System.out.print(prompt);
@@ -45,6 +47,7 @@ public class Grid {
             // Try catch for making sure the user only inputs integers
             try {
                 size = (int) Integer.valueOf(userInputNumber);
+                // Makes sure the input is in chosen range.
                 if (size >= 5 && size <= 100) {
                     break;
                 } else {

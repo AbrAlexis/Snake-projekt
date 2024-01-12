@@ -1,5 +1,6 @@
 import java.util.*;
 
+// Represents the Snake entity in the Snake game
 public class Snake {
     private int headX;
     private int headY;
@@ -8,7 +9,9 @@ public class Snake {
     private int oldHeadX = headX;
     private int oldHeadY = headY;
 
-    public Snake(Grid grid) { // Creates the Gamestart Snake
+    // Constructor for creating the initial snake at the start of the game
+    public Snake(Grid grid) {
+        // Initialization of the snake's properties at the center of the grid
         int gridMiddleX = (int) Math.floor(Double.valueOf(grid.getGridSizeX() / 2));
         int gridMiddleY = (int) Math.floor(Double.valueOf(grid.getGridSizeY() / 2));
         this.headX = gridMiddleX;
@@ -21,13 +24,14 @@ public class Snake {
         this.oldHeadY = gridMiddleY;
     }
 
-    public Snake(int headX, int headY, ArrayList<SnakeBody> body) { // Creates Snake
+    // Constructor for creating snake
+    public Snake(int headX, int headY, ArrayList<SnakeBody> body) {
         this.headX = headX;
         this.headY = headY;
         this.body = body;
     }
 
-    // Metoder for snakkens krop og position.
+    // Getter/Setter methods for retrieving snake properties
     public int getHeadX() {
         return headX;
     }
@@ -56,7 +60,7 @@ public class Snake {
         body.add(new SnakeBody(x, y));
     }
 
-    // Metoder til retningen for slangen.
+    // Method for snakes direction
     public char getDirection() {
         return direction;
     }
@@ -65,7 +69,7 @@ public class Snake {
         direction = newDirection;
     }
 
-    // Metode til at opdatere slangebevægelse baseret på retningen.
+    // Method to handle snake movement on the grid
     public void move(Grid grid) {
         oldHeadX = headX;
         oldHeadY = headY;
@@ -91,8 +95,9 @@ public class Snake {
         moveBody(grid);
     }
 
-    // Metode der rykker kroppen og sørger for at den følger leddet foran.
+    // Method to move the body parts of the snake
     private void moveBody(Grid grid) {
+        // Updating the positions of body parts to follow the part in front
         if (body.size() > 0) {
             for (int i = body.size() - 1; i > 0; i--) {
                 SnakeBody currentBodyPart = body.get(i);
@@ -100,13 +105,14 @@ public class Snake {
                 currentBodyPart.setXpos(previousBodyPart.getXpos());
                 currentBodyPart.setYpos(previousBodyPart.getYpos());
             }
-            // Opdatering der sørger for at den forreste kropsdel følger hovedet.
+            // Makes sure the frontmost body part follows the head.
             SnakeBody firstBodyPart = body.get(0);
             firstBodyPart.setXpos(oldHeadX);
             firstBodyPart.setYpos(oldHeadY);
         }
     }
 
+    // Method to update the grid representation based on the snake's position
     public void updateGrid(Grid grid) {
         for (int i = 0; i < grid.getGridSizeX(); i++) {
             for (int j = 0; j < grid.getGridSizeY(); j++) {
@@ -119,6 +125,7 @@ public class Snake {
         }
     }
 
+    // Method to check for self-collision
     public boolean selfCollision(SimpleSnakeController simpleSnakeController) {
         for (int i = 0; i < body.size(); i++) {
             if (headX == body.get(i).getXpos() && headY == body.get(i).getYpos()) {
@@ -130,6 +137,7 @@ public class Snake {
         return false;
     }
 
+    // Method to handle snake eating an apple
     public void hasEatenApple(Food food, Grid grid, SnakeBody snakeBody) {
 
         if (food.eatFood(this, food, grid) == true) {

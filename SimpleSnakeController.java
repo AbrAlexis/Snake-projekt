@@ -8,6 +8,7 @@ public class SimpleSnakeController {
     private SimpleSnakeView snakeView;
     private boolean gameOverFlag;
 
+    // Constructor, initializes SnakeController with a reference to SnakeView
     public SimpleSnakeController(SimpleSnakeView snakeView) {
         this.snakeView = snakeView;
         this.gameOverFlag = false;
@@ -21,8 +22,10 @@ public class SimpleSnakeController {
         gameOverFlag = value;
     }
 
+    // Sets up key press handler to control the snake
     public void setupKeyPressHandler(Scene scene, Snake snake, Grid grid, Food food, Button button) {
         scene.setOnKeyPressed(e -> {
+            // Updates snake's tail position before movement.
             SnakeBody tail = new SnakeBody(snake.getBody().get(snake.getBody().size() - 1).getXpos(),
                     snake.getBody().get(snake.getBody().size() - 1).getYpos());
             KeyCode keyCode = e.getCode();
@@ -40,6 +43,7 @@ public class SimpleSnakeController {
         });
     }
 
+    // Handles key presses and controls the snake's movement
     public void handleKeyPress(KeyCode keyCode, Snake snake, Grid grid) {
         char direction = snake.getDirection();
 
@@ -58,6 +62,7 @@ public class SimpleSnakeController {
         }
     }
 
+    // Starts the game by hiding the start button and showing the snake and food
     public void startGame(Button button, Food food, Snake snake) {
         button.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -71,10 +76,12 @@ public class SimpleSnakeController {
         });
     }
 
+    // Resets the game by removing the snake body, moving the head, and updating the
+    // view
     public void resetGame(Grid grid, Snake snake, Food food) {
         int size = snake.getSize();
         for (int i = size - 1; i > 0; i--) {
-            // deletes all but one of snakes bodypart
+            // deletes all bodyparts expect one
             snake.getBody().remove(i);
         }
         // Moves the head back to the middle
