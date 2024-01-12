@@ -20,6 +20,7 @@ public class AdvancedSnakeController {
     private char wormLastDirection;
     private boolean multiplayer;
     private boolean gameOver;
+    private double gameSpeed;
 
     // Constructor for Advanced snake controller.
     // Makes sure the controller has access to snakeView.
@@ -27,6 +28,7 @@ public class AdvancedSnakeController {
         this.snakeView = snakeView;
         this.timeline = timeline;
         this.multiplayer = decideMultiplayer();
+        this.gameSpeed = decideGameSpeed();
     }
 
     // Method that handles user KeyPress for both single and multiplayer.
@@ -45,7 +47,7 @@ public class AdvancedSnakeController {
 
     // Timeline for singleplayer.
     public void setUpTimeline(Snake snake, Snake worm, Grid grid, Food food, Scene scene) {
-        this.timeline = new Timeline(new KeyFrame(Duration.seconds(0.2), event -> {
+        this.timeline = new Timeline(new KeyFrame(Duration.seconds(gameSpeed), event -> {
 
             SnakeBody tail = new SnakeBody(snake.getBody().get(snake.getBody().size() - 1).getXpos(),
                     snake.getBody().get(snake.getBody().size() - 1).getYpos());
@@ -74,7 +76,7 @@ public class AdvancedSnakeController {
     // Timeline for 2 Player.
     public void setUpTimeline2p(Snake snake, Snake worm, Grid grid, Food food, Scene scene) {
 
-        this.timeline = new Timeline(new KeyFrame(Duration.seconds(0.2), event -> {
+        this.timeline = new Timeline(new KeyFrame(Duration.seconds(gameSpeed), event -> {
 
             SnakeBody snakeTail = new SnakeBody(snake.getBody().get(snake.getBody().size() - 1).getXpos(),
                     snake.getBody().get(snake.getBody().size() - 1).getYpos());
@@ -238,6 +240,36 @@ public class AdvancedSnakeController {
             return true;
         } else {
             return false;
+        }
+    }
+
+    // Method that decides gameSpeed.
+    public double decideGameSpeed() {
+        Scanner console = new Scanner(System.in);
+        String userInputNumber;
+        int speedLevel;
+
+        System.out.println("Decide speed level.");
+        System.out.println("Type 1 for \"Slug-speed\", type 2 for \"Worm-speed\" or type 3 for \"Python-speed: ");
+        while (true) {
+            userInputNumber = console.nextLine();
+            try {
+                speedLevel = Integer.valueOf(userInputNumber);
+                if (speedLevel != 1 && speedLevel != 2 && speedLevel != 3) {
+                    System.out.println("Please enter either 1, 2 or 3:  ");
+                    continue;
+                }
+                break;
+            } catch (Exception e) {
+                System.out.println("Please enter either 1, 2 or 3: ");
+            }
+        }
+        if (speedLevel == 1) {
+            return 0.4;
+        } else if (speedLevel == 2) {
+            return 0.2;
+        } else {
+            return 0.1;
         }
     }
 
