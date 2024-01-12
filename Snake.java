@@ -22,6 +22,7 @@ public class Snake {
 
         this.oldHeadX = gridMiddleX;
         this.oldHeadY = gridMiddleY;
+        updateGrid(grid);
     }
 
     // Constructor for creating snake
