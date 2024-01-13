@@ -1,3 +1,4 @@
+package Model;
 public class SnakeBody {
     private int xPos;
     private int yPos;
