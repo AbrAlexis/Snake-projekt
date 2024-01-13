@@ -1,4 +1,5 @@
-package Model;
+package src.Model;
+
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Food {

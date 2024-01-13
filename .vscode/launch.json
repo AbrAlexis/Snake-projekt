@@ -6,6 +6,13 @@
   "configurations": [
     {
       "type": "java",
+      "name": "AdvancedSnakeView",
+      "request": "launch",
+      "mainClass": "src.VC.AdvancedSnakeView",
+      "projectName": "Snake-projekt_333bbcda"
+    },
+    {
+      "type": "java",
       "name": "SimpleSnakeView",
       "request": "launch",
       "mainClass": "SimpleSnakeView",

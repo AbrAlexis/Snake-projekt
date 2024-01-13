@@ -1,10 +1,11 @@
-package VC;
+package src.VC;
+
 import java.util.ArrayList;
 
-import Model.Food;
-import Model.Grid;
-import Model.Snake;
-import Model.SnakeBody;
+import src.Model.Food;
+import src.Model.Grid;
+import src.Model.Snake;
+import src.Model.SnakeBody;
 import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.geometry.Insets;

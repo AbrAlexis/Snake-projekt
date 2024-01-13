@@ -1,4 +1,5 @@
-package Model;
+package src.Model;
+
 import java.util.*;
 import javafx.scene.canvas.Canvas;
 

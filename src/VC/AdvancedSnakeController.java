@@ -1,4 +1,5 @@
-package VC;
+package src.VC;
+
 import java.util.HashMap;
 import javafx.scene.input.KeyCode;
 
@@ -9,10 +10,10 @@ import javafx.scene.Scene;
 import java.util.Map;
 import java.util.Scanner;
 
-import Model.Food;
-import Model.Grid;
-import Model.Snake;
-import Model.SnakeBody;
+import src.Model.Food;
+import src.Model.Grid;
+import src.Model.Snake;
+import src.Model.SnakeBody;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.*;

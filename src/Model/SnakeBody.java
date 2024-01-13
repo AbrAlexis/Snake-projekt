@@ -1,4 +1,5 @@
-package Model;
+package src.Model;
+
 public class SnakeBody {
     private int xPos;
     private int yPos;
