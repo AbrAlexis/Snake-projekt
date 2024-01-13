@@ -1,5 +1,4 @@
 import java.util.*;
-import javafx.scene.canvas.Canvas;
 
 //Grid with constructor that generates an object of type grid.
 public class Grid {
