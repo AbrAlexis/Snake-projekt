@@ -1,0 +1,71 @@
+{
+  // Use IntelliSense to learn about possible attributes.
+  // Hover to view descriptions of existing attributes.
+  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "java",
+      "name": "SimpleSnakeView",
+      "request": "launch",
+      "mainClass": "SimpleSnakeView",
+      "projectName": "Snake-projekt_26082a62"
+    },
+    {
+      "type": "java",
+      "name": "SimpleSnakeView",
+      "request": "launch",
+      "mainClass": "SimpleSnakeView",
+      "projectName": "Snake-projekt_9f8d8b50"
+    },
+    {
+      "type": "java",
+      "name": "SimpleSnakeModel",
+      "request": "launch",
+      "mainClass": "SimpleSnakeModel",
+      "projectName": "Snake-projekt_f8b54ea"
+    },
+    {
+      "type": "java",
+      "name": "GridExample",
+      "request": "launch",
+      "mainClass": "GridExample",
+      "projectName": "Snake-projekt_f8b54ea"
+    },
+    {
+      "type": "java",
+      "name": "SimpleSnakeView",
+      "request": "launch",
+      "mainClass": "SimpleSnakeView",
+      "projectName": "Snake-projekt_f8b54ea"
+    },
+    {
+      "type": "java",
+      "name": "Current File",
+      "request": "launch",
+      "mainClass": "${file}"
+    },
+    {
+      "type": "java",
+      "name": "GridExample",
+      "request": "launch",
+      "mainClass": "GridExample",
+      "projectName": "Snake-projekt_333bbcda"
+    },
+    {
+      "type": "java",
+      "name": "SimpleSnakeModel",
+      "request": "launch",
+      "mainClass": "SimpleSnakeModel",
+      "projectName": "Snake-projekt_333bbcda"
+    },
+    {
+      "type": "java",
+      "name": "SimpleSnakeView",
+      "request": "launch",
+      "mainClass": "SimpleSnakeView",
+      "projectName": "Snake-projekt_333bbcda"
+    }
+  ]
+}
+
