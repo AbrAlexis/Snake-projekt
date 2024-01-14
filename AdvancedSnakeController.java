@@ -1,10 +1,7 @@
 import java.util.HashMap;
 import javafx.scene.input.KeyCode;
-
 import javafx.util.Duration;
-
 import javafx.scene.Scene;
-
 import java.util.Map;
 import java.util.Scanner;
 import javafx.animation.KeyFrame;
@@ -14,7 +11,6 @@ import javafx.scene.control.Button;
 
 public class AdvancedSnakeController {
     private AdvancedSnakeView snakeView;
-
     private Timeline timeline;
     private char snakeLastDirection;
     private char wormLastDirection;

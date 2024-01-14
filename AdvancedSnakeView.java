@@ -54,15 +54,13 @@ public class AdvancedSnakeView extends Application {
         Button startButton = createButton("Start Game");
         BorderPane borderpane = createBorderPaneInLocation("MIDDLE", "MIDDLE");
         borderpane.setCenter(startButton);
-        drawGrid(grid);
-
-        simpleSnakeController.startGame(startButton, food, snake);
-        simpleSnakeController.setupKeyPressHandler(scene, snake, worm, grid);
 
         drawGrid(grid);
         primaryStage.setTitle("Snake");
         primaryStage.setScene(scene);
         primaryStage.show();
+
+        simpleSnakeController.setupKeyPressHandler(scene, snake, worm, grid);
 
         if (simpleSnakeController.getMultiplayer()) {
             simpleSnakeController.startGame2p(startButton, food, snake, worm);
